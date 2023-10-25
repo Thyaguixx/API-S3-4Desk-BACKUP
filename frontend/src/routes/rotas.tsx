@@ -10,6 +10,8 @@ import Erro404 from "../pages/erro404";
 import EstoqueParceiro from "../pages/parEstoque";
 import ParEmpresaTransacao from "../pages/parEmpresaTransacao";
 import { PrivateRouteParceiro, PrivateRouteEstabelecimento } from "./authentication";
+import ParEdicaoPerfil from "../pages/parEdicaoPerfil";
+import EstEdicaoUsuario from "../pages/estEdicaoUsuario";
 
 export const Rotas = () => {
   return (
@@ -56,6 +58,9 @@ export const Rotas = () => {
             </PrivateRouteParceiro>
           } />
 
+
+        <Route path="/edicao-usuario-parceiro" element={<ParEdicaoPerfil />} />
+        <Route path="/edicao-usuario-estabelecimento" element={<EstEdicaoUsuario />} />
         <Route path="*" element={<Erro404 />} />
 
       </Routes>

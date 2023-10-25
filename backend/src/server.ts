@@ -27,12 +27,12 @@ const client = new Pool({
     user: "postgres",
     host: "localhost",
     database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "1234",      //trocar para a senha do seu banco local
+    password: "thygas020",      //trocar para a senha do seu banco local
     port: 5432
 })
 
 // const cloud = new Pool({ //conexão com o banco do servidor
-//     connectionString: "postgres://foucqfeg:V-vXAAIje_4WXTk40Zs73_UCSc9gjInB@silly.db.elephantsql.com/foucqfeg", 
+//     connectionString: "postgres://nazgdfbw:IjoT_wlcvL0Qq_Qd4Ezv6AY3_nwoqeaw@isabelle.db.elephantsql.com/nazgdfbw", 
 //     ssl: {
 //         rejectUnauthorized: false
 //     }

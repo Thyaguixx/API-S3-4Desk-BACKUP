@@ -32,9 +32,6 @@ import cadastro from "../images/cadastro.png";
 import { useNavigate } from "react-router-dom";
 import logo4D from "../images/logo4D.png";
 
-
-
-
 const settings = ["Perfil", "Sair"];
 
 function ParLeftMenu() {
@@ -282,6 +279,8 @@ function ParLeftMenu() {
                       handleCloseUserMenu();
                       if (setting === 'Sair') {
                         deslogar()
+                      } else if (setting === 'Perfil') {
+                        navigate('/edicao-usuario-parceiro')
                       }
                     }}>
                     <Typography textAlign="center" >{setting}</Typography>

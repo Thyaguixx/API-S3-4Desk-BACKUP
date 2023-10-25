@@ -10,13 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
-import {
-  List,
-  ListItemButton,
-  Menu,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
+import {List,ListItemButton,Menu,ThemeProvider,createTheme,} from "@mui/material";
 import Logo from "../images/logo.png";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -33,7 +27,7 @@ import logo4D from "../images/logo4D.png";
 
 const settings = ["Perfil", "Sair"];
 
-function EstLeftMenu() {
+function AdmLeftMenu() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [userName, setUserName] = useState("");
@@ -111,6 +105,26 @@ function EstLeftMenu() {
     setOpen2(!open2);
   };
 
+  const [open3, setOpen3] = React.useState(true);
+  const handleClick3 = () => {
+    setOpen3(!open3);
+  };
+
+  const [open4, setOpen4] = React.useState(true);
+  const handleClick4 = () => {
+    setOpen4(!open4);
+  };
+
+  const [open5, setOpen5] = React.useState(true);
+  const handleClick5 = () => {
+    setOpen5(!open5);
+  };
+
+  const [open6, setOpen6] = React.useState(true);
+  const handleClick6 = () => {
+    setOpen6(!open6);
+  };
+
   const drawer = (
     <Box sx={{ zIndex: 10 }}>
       <Toolbar />
@@ -120,7 +134,7 @@ function EstLeftMenu() {
           <ListItemIcon>
             <img src={money} alt="png" width="25px" />
           </ListItemIcon>
-          <ListItemText primary="Saldo" />
+          <ListItemText primary="Transferir Greenneat" />
           {open1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
@@ -128,38 +142,104 @@ function EstLeftMenu() {
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
               <img src={papermoney} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Transação" onClick={() => navigate('/estabelecimento-saldo')}/>
+              <ListItemText sx={{ pl: 3 }} primary="Transferir Greenneats" onClick={() => navigate('')}/>
+            </ListItemButton>
+
+            <ListItemButton sx={{ pl: 5 }}>
+              <img src={papermoney} alt="png" width="20px" />
+              <ListItemText sx={{ pl: 3 }} primary="Transferir Greenneats por óleo" onClick={() => navigate('')}/>
             </ListItemButton>
 
             <ListItemButton sx={{ pl: 5 }}>
               <img src={extrato} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Extrato" />
+              <ListItemText sx={{ pl: 3 }} primary="Histórico de transferências" onClick={() => navigate('')} />
             </ListItemButton>
           </List>
         </Collapse>
 
-        {/*ESTOQUE DE ÓLEO*/}
+
+
+
+
         <ListItemButton onClick={handleClick2}>
+          <ListItemIcon>
+            <img src={extrato} alt="png" width="25px" />
+          </ListItemIcon>
+          <ListItemText primary="Greenneats recebidas dos usuários" onClick={() => navigate('')} />
+        </ListItemButton>
+
+
+
+        <ListItemButton onClick={handleClick3}>
           <ListItemIcon>
             <img src={boxes} alt="png" width="25px" />
           </ListItemIcon>
-          <ListItemText primary="Estoque de Óleo" />
-          {open2 ? <ExpandLess /> : <ExpandMore />}
+          <ListItemText primary="Estoque de Óleo" onClick={() => navigate('')} />
         </ListItemButton>
 
-        <Collapse in={open2} timeout="auto" unmountOnExit>
+
+
+
+
+        <ListItemButton color="primary" onClick={handleClick4}>
+          <ListItemIcon>
+            <img src={extrato} alt="png" width="25px" />
+          </ListItemIcon>
+          <ListItemText primary="Transferências feitas por usuários" />
+          {open4 ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={open4} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 5 }} onClick={() => navigate('/estabelecimento-estoque')}>
-              <img src={cadastro} alt="png" width="20px" onClick={() => navigate('/estabelecimento-estoque')}/>
-              <ListItemText sx={{ pl: 3 }} primary="Cadastrar Óleo" onClick={() => navigate('/estabelecimento-estoque')}/>
+            <ListItemButton sx={{ pl: 5 }}>
+              <img src={extrato} alt="png" width="20px" />
+              <ListItemText sx={{ pl: 3 }} primary="Parceiro" onClick={() => navigate('')}/>
             </ListItemButton>
 
             <ListItemButton sx={{ pl: 5 }}>
               <img src={extrato} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Histórico de Cadastro" />
+              <ListItemText sx={{ pl: 3 }} primary="Estabelecimento" onClick={() => navigate('')}/>
             </ListItemButton>
           </List>
         </Collapse>
+
+
+
+
+
+        <ListItemButton color="primary" onClick={handleClick5}>
+          <ListItemIcon>
+            <img src={extrato} alt="png" width="25px" />
+          </ListItemIcon>
+          <ListItemText primary="Usuários Cadastrados" />
+          {open5 ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse in={open5} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 5 }}>
+              <img src={extrato} alt="png" width="20px" />
+              <ListItemText sx={{ pl: 3 }} primary="Parceiro" onClick={() => navigate('')}/>
+            </ListItemButton>
+
+            <ListItemButton sx={{ pl: 5 }}>
+              <img src={extrato} alt="png" width="20px" />
+              <ListItemText sx={{ pl: 3 }} primary="Estabelecimento" onClick={() => navigate('')}/>
+            </ListItemButton>
+          </List>
+        </Collapse>
+
+
+        <ListItemButton onClick={handleClick6}>
+          <ListItemIcon>
+            <img src={extrato} alt="png" width="25px" />
+          </ListItemIcon>
+          <ListItemText primary="Dashboards" onClick={() => navigate('')} />
+        </ListItemButton>
+
+
+
+
       </List>
     </Box>
   );
@@ -199,7 +279,7 @@ function EstLeftMenu() {
               GREENEAT
             </Typography>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily: 'actor'}}>
-              Acessado como: Estabelecimento
+              Acessado como: Administrador
             </Typography>
             <Typography
               variant="body1"
@@ -241,8 +321,6 @@ function EstLeftMenu() {
                       handleCloseUserMenu();
                       if (setting === 'Sair') {
                         deslogar()
-                      } else if (setting === 'Perfil') {
-                        navigate('/edicao-usuario-estabelecimento')
                       }
                     }}>
                     <Typography textAlign="center" >{setting}</Typography>
@@ -255,17 +333,17 @@ function EstLeftMenu() {
       </AppBar>
       <nav aria-label="menu">
         <Drawer
-          // variant="temporary"
-          // anchor="left"
-          // open={mobileDrawerOpen}
-          // onClose={handleDrawerToggle}
-          // ModalProps={{
-          //   keepMounted: true, // Melhora o desempenho em dispositivos móveis.
-          // }}
+          variant="temporary"
+          anchor="left"
+          open={mobileDrawerOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Melhora o desempenho em dispositivos móveis.
+          }}
           sx={{
             display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
-              width: 240,
+              width: 270,
               boxSizing: "border-box",
               zIndex: 100,
             },
@@ -278,7 +356,7 @@ function EstLeftMenu() {
           anchor="left"
           sx={{
             "& .MuiDrawer-paper": {
-              width: 240,
+              width: 270,
               boxSizing: "border-box",
               height: "100vh", // Defina a altura desejada aqui
               marginTop: "0vh", // Espaçamento para o AppBar
@@ -296,4 +374,4 @@ function EstLeftMenu() {
   );
 }
 
-export default EstLeftMenu;
+export default AdmLeftMenu;
