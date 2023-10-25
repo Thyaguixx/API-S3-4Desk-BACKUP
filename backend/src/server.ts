@@ -23,20 +23,20 @@ import { GETParceiroEstabelecimentoExtrato } from "../Procedures/GETs/GETParceir
 import { GETParceiroEmpresaExtrato } from "../Procedures/GETs/GETParceiroEmpresaExtrato";
 import { GETParceiroEstoqueHistorico } from "../Procedures/GETs/GETParceiroEstoqueHistorico";
 
-const client = new Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "thygas020",      //trocar para a senha do seu banco local
-    port: 5432
-})
-
-// const cloud = new Pool({ //conexão com o banco do servidor
-//     connectionString: "postgres://nazgdfbw:IjoT_wlcvL0Qq_Qd4Ezv6AY3_nwoqeaw@isabelle.db.elephantsql.com/nazgdfbw", 
-//     ssl: {
-//         rejectUnauthorized: false
-//     }
+// const client = new Pool({
+//     user: "postgres",
+//     host: "localhost",
+//     database: "API - 4Desk",    //trocar para o nome do seu banco local
+//     password: "thygas020",      //trocar para a senha do seu banco local
+//     port: 5432
 // })
+
+const client = new Pool({ //conexão com o banco do servidor
+    connectionString: "postgres://nazgdfbw:IjoT_wlcvL0Qq_Qd4Ezv6AY3_nwoqeaw@isabelle.db.elephantsql.com/nazgdfbw", 
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
 
 client.connect()
 

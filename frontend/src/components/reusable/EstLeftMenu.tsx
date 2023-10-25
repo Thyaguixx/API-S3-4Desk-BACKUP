@@ -31,7 +31,7 @@ import cadastro from "../images/cadastro.png";
 import { useNavigate } from "react-router-dom";
 import logo4D from "../images/logo4D.png";
 
-const settings = ["Perfil", "Sair"];
+const settings = ["Editar perfil", "Sair"];
 
 function EstLeftMenu() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -241,7 +241,7 @@ function EstLeftMenu() {
                       handleCloseUserMenu();
                       if (setting === 'Sair') {
                         deslogar()
-                      } else if (setting === 'Perfil') {
+                      } else if (setting === 'Editar perfil') {
                         navigate('/edicao-usuario-estabelecimento')
                       }
                     }}>

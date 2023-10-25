@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../components/reusable/Footer";
 import TopMenu from "../components/reusable/TopMenu";
 import { ThemeProvider, createTheme } from "@mui/material";
-import Step3 from "../components/EdicaoUsuario/step3";
+import Step3Estab from "../components/EdicaoUsuario/step3Estab";
 
 
 function EstEdicaoUsuario() {
@@ -21,7 +21,7 @@ function EstEdicaoUsuario() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <TopMenu />
-        <Step3 />
+        <Step3Estab />
         <Footer />
       </ThemeProvider>
     </div>
