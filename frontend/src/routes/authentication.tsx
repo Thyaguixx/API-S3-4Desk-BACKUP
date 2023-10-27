@@ -23,3 +23,15 @@ export function PrivateRouteEstabelecimento({ children }: any) {
         return <Navigate to={'/'} />
     }
 }
+
+export function PrivateRouteADM({ children }: any) {
+    const usuarioJson = sessionStorage.getItem('UsuarioLogado')
+
+    if (usuarioJson) {
+        const usuarioObj = JSON.parse(usuarioJson)
+
+        return usuarioObj.UsuarioTipo === 'Empresa' ? children : <Navigate to={'/'} />
+    } else {
+        return <Navigate to={'/'} />
+    }
+}

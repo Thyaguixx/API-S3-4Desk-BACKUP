@@ -9,9 +9,11 @@ import EstoqueEstabelecimento from "../pages/estEstoque";
 import Erro404 from "../pages/erro404";
 import EstoqueParceiro from "../pages/parEstoque";
 import ParEmpresaTransacao from "../pages/parEmpresaTransacao";
-import { PrivateRouteParceiro, PrivateRouteEstabelecimento } from "./authentication";
+import { PrivateRouteParceiro, PrivateRouteEstabelecimento, PrivateRouteADM } from "./authentication";
 import ParEdicaoPerfil from "../pages/parEdicaoPerfil";
 import EstEdicaoUsuario from "../pages/estEdicaoUsuario";
+import AdmTransferirGreenneats from "../pages/adm-tranferir-greenneats";
+import ParCreditoGreenneat from "../pages/par-credito-greenneat";
 
 export const Rotas = () => {
   return (
@@ -35,7 +37,7 @@ export const Rotas = () => {
           } />
 
         <Route path="/registration" element={<Registration />} />
-        
+
         <Route path="/estabelecimento-estoque"
           element={
             <PrivateRouteEstabelecimento>
@@ -58,6 +60,19 @@ export const Rotas = () => {
             </PrivateRouteParceiro>
           } />
 
+        <Route path="/adm-transferir-greenneats"
+          element={
+            <PrivateRouteADM>
+              <AdmTransferirGreenneats />
+            </PrivateRouteADM>
+          } />
+
+        <Route path="/par-credito-greenneat"
+          element={
+            <PrivateRouteParceiro>
+              <ParCreditoGreenneat />
+            </PrivateRouteParceiro>
+          } />
 
         <Route path="/edicao-usuario-parceiro" element={<ParEdicaoPerfil />} />
         <Route path="/edicao-usuario-estabelecimento" element={<EstEdicaoUsuario />} />

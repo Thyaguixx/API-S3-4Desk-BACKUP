@@ -1,11 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { createTheme, useMediaQuery } from "@mui/material";
+import { Typography, createTheme, useMediaQuery } from "@mui/material";
+import { lightBlue } from "@mui/material/colors";
 import money from "../images/money.png"
-
-
-export default function AdmTituloTransferirGreenneats() {
+export default function ParCreditoTitulo() {
   const theme = createTheme({
     palette: {
       primary: {
@@ -21,15 +20,17 @@ export default function AdmTituloTransferirGreenneats() {
   const isDesktop = useMediaQuery("(max-width: 10025px)"); // Tela maior que 1024px é considerada como PC
 
   return (
+
     <Box sx={{ width:  isMobile ? "100%" : isTablet ? "100%" :'100%',height: "60px",mt:"-3%" }}>
-      <Grid container>
-        <Grid item lg={3} md={3} sm={3} xs={3} sx={{mt:"-1%"}}>
-        <img src={money} alt="png" width="50%" />
-        </Grid>
-        <Grid item lg={9} md={9} sm={9} xs={9} sx={{fontSize: "30px", mt: '0%', fontFamily: 'actor', fontWeight:'600'}}>
-          Transferir Greenneats
-        </Grid>
+    <Grid container sx={{alignItems: "center"}}>
+      <Grid item lg={2} md={3} sm={3} xs={3} sx={{mt:"-1%"}}>
+      <img src={money} alt="png" width="50%" />
       </Grid>
-    </Box>
+      <Grid item lg={10} md={9} sm={9} xs={9} sx={{fontSize: "30px", mt: '0%', fontFamily: 'actor', fontWeight:'600'}}>
+        Crédito Greenneat
+      </Grid>
+    </Grid>
+  </Box>
+
   );
 }

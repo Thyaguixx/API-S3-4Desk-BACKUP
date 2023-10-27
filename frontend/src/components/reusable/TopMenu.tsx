@@ -110,6 +110,10 @@ export default function TopMenu2() {
             navigate("/estabelecimento-saldo");
             await window.location.reload();
           }
+          if (response.data.usuario.UsuarioTipo === "Empresa") {
+            navigate("/adm-transferir-greenneats");
+            await window.location.reload();
+          }
 
           sessionStorage.setItem(
             "UsuarioLogado",

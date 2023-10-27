@@ -104,19 +104,16 @@ function ParLeftMenu() {
 
   const [open1, setOpen1] = React.useState(true);
   const handleClick1 = () => {
-    navigate('/parceiro-saldo')
     setOpen1(!open1);
   };
 
   const [open2, setOpen2] = React.useState(true);
   const handleClick2 = () => {
-  navigate('/parceiro-empresa-transacao')
     setOpen2(!open2);
   };
 
   const [open3] = React.useState(true);
   const handleClick3 = () => {
-    navigate('/parceiro-estoque')
     setOpen2(!open3);
   };
 
@@ -148,7 +145,7 @@ function ParLeftMenu() {
           {open1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
-        {/* <Collapse in={open1} timeout="auto" unmountOnExit>
+        <Collapse in={open1} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
               <img src={papermoney} alt="png" width="20px" />
@@ -162,7 +159,7 @@ function ParLeftMenu() {
 
           </List>
 
-        </Collapse> */}
+        </Collapse>
 
         {/*ESTOQUE DE ÓLEO*/}
         <ListItemButton onClick={handleClick3}>
@@ -177,26 +174,31 @@ function ParLeftMenu() {
           <ListItemIcon>
             <img src={money} alt="png" width="25px" />
           </ListItemIcon>
-          <ListItemText primary="Transação empresa" />
+          <ListItemText primary="Crédito Greenneat" />
           {open2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
-        {/* <Collapse in={open2} timeout="auto" unmountOnExit>
+        <Collapse in={open2} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
 
             <ListItemButton sx={{ pl: 5 }}>
               <img src={extrato} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Transação com empresa" onClick={() => navigate('/parceiro-empresa-transacao')} />
+              <ListItemText sx={{ pl: 3 }} primary="Greenneats recebidas da empresa" onClick={() => navigate('/parceiro-empresa-transacao')} />
             </ListItemButton>
 
             <ListItemButton sx={{ pl: 5 }}>
               <img src={extrato} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Histórico de compra de produtos Greenneat" />
+              <ListItemText sx={{ pl: 3 }} primary="Transferir Greenneats à empresa" />
+            </ListItemButton>
+
+            <ListItemButton sx={{ pl: 5 }}>
+              <img src={extrato} alt="png" width="20px" />
+              <ListItemText sx={{ pl: 3 }} primary="Extrato de transferências" />
             </ListItemButton>
 
           </List>
 
-        </Collapse> */}
+        </Collapse>
 
       </List>
     </Box>
@@ -220,7 +222,7 @@ function ParLeftMenu() {
               onClick={handleDrawerToggle}
               sx={{
                 mr: 2,
-                // display: { md: "none" }, // Ícone de hambúrguer visível apenas em telas menores
+                display: { md: "none" }, // Ícone de hambúrguer visível apenas em telas menores
               }}
             >
               <MenuIcon />
@@ -295,13 +297,13 @@ function ParLeftMenu() {
         <Drawer
           variant="temporary"
           anchor="left"
-          // open={mobileDrawerOpen}
-          // onClose={handleDrawerToggle}
-          // ModalProps={{
-          //   keepMounted: true, // Melhora o desempenho em dispositivos móveis.
-          // }}
+          open={mobileDrawerOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Melhora o desempenho em dispositivos móveis.
+          }}
           sx={{
-            // display: { xs: "block", md: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               width: 260,
               zIndex: 100,
@@ -320,10 +322,10 @@ function ParLeftMenu() {
               boxSizing: "border-box",
               height: "100vh", // Defina a altura desejada aqui
               marginTop: "0vh", // Espaçamento para o AppBar
-              // position: "fixed", // Mantém o Drawer fixo na posição
+              position: "fixed", // Mantém o Drawer fixo na posição
               zIndex: 100,
               boxShadow: 5,
-              // display: { xs: "none", md: "block" }, // Drawer visível apenas em telas maiores
+              display: { xs: "none", md: "block" }, // Drawer visível apenas em telas maiores
             },
           }}
         >

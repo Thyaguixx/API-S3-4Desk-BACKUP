@@ -142,7 +142,7 @@ function AdmLeftMenu() {
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
               <img src={papermoney} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Transferir Greenneats" onClick={() => navigate('')}/>
+              <ListItemText sx={{ pl: 3 }} primary="Transferir Greenneats" onClick={() => navigate('/AdmTransferirGreenneats')}/>
             </ListItemButton>
 
             <ListItemButton sx={{ pl: 5 }}>
@@ -343,7 +343,7 @@ function AdmLeftMenu() {
           sx={{
             display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
-              width: 270,
+              width: 290,
               boxSizing: "border-box",
               zIndex: 100,
             },
@@ -356,9 +356,9 @@ function AdmLeftMenu() {
           anchor="left"
           sx={{
             "& .MuiDrawer-paper": {
-              width: 270,
+              width: 290,
               boxSizing: "border-box",
-              height: "100vh", // Defina a altura desejada aqui
+              height: "94vh", // Defina a altura desejada aqui
               marginTop: "0vh", // Espaçamento para o AppBar
               position: "fixed", // Mantém o Drawer fixo na posição
               zIndex: 100,

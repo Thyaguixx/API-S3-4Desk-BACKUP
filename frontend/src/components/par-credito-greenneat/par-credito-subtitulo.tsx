@@ -2,10 +2,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { createTheme, useMediaQuery } from "@mui/material";
-import money from "../images/money.png"
-
-
-export default function AdmTituloTransferirGreenneats() {
+import { lightBlue } from "@mui/material/colors";
+import boximg from "../images/boxes.png"
+export default function ParCreditoSubtitulo() {
   const theme = createTheme({
     palette: {
       primary: {
@@ -21,13 +20,10 @@ export default function AdmTituloTransferirGreenneats() {
   const isDesktop = useMediaQuery("(max-width: 10025px)"); // Tela maior que 1024px é considerada como PC
 
   return (
-    <Box sx={{ width:  isMobile ? "100%" : isTablet ? "100%" :'100%',height: "60px",mt:"-3%" }}>
-      <Grid container>
-        <Grid item lg={3} md={3} sm={3} xs={3} sx={{mt:"-1%"}}>
-        <img src={money} alt="png" width="50%" />
-        </Grid>
-        <Grid item lg={9} md={9} sm={9} xs={9} sx={{fontSize: "30px", mt: '0%', fontFamily: 'actor', fontWeight:'600'}}>
-          Transferir Greenneats
+    <Box sx={{ width:  isMobile ? "100%" : isTablet ? "100%" :'100%', height: "40px" }}>
+      <Grid container >
+        <Grid item lg={9} md={9} sm={9} xs={9} sx={{fontSize: "18px", mt: '0%', fontFamily: 'actor', fontWeight:'100'}}>
+          Selecione a opção desejada:
         </Grid>
       </Grid>
     </Box>
