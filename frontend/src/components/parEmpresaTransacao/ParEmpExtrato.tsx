@@ -42,7 +42,7 @@ export default function ParEmpExtrato() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/GETParceiroEmpresaExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETParceiroEmpresaExtrato/${usuarioJson.UsuarioID}`
         );
 
         const parceiroEmpresaExtratoArray = JSON.parse(

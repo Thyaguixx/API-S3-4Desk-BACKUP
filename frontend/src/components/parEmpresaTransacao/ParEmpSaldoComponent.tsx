@@ -35,7 +35,7 @@ export default function ParEmpSaldoComponent() {
       const usuarioJson = JSON.parse(usuarioLogado)
 
       try {
-        const response = await Axios.get(`http://localhost:3001/recupera-credito-parceiro/${usuarioJson.UsuarioID}`)
+        const response = await Axios.get(`${process.env.REACT_APP_BaseURL}/recupera-credito-parceiro/${usuarioJson.UsuarioID}`)
 
         if (response.data.Sucesso) {
           setCreditosParceiro(response.data.ParceiroCredito)

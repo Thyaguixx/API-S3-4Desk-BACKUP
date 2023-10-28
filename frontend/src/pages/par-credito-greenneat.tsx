@@ -49,7 +49,7 @@ function ParCreditoGreenneat() {
             ml: isMobile ? "30%" : isTablet ? "27%" : "25%",
             mt: isMobile ? "100px" : isTablet ? "100px" : "120px",
             mr: "3%",
-            width: isMobile ? "60%" : isTablet ? "70%" : "700",
+            width: isMobile ? "60%" : isTablet ? "70%" : "75%",
             height: isMobile ? "800px" : isTablet ? "840px" : "480px",
           }}
         >

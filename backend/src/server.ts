@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import express from "express"
 import cors from "cors"
+import dotenv from "dotenv"
 import { LoginUsuario } from "../Procedures/Functions/LoginUsuario";
 import { POSTCadastroParceiro } from "../Procedures/POSTs/POSTCadastroParceiro";
 import { POSTCadastroEstabelecimento } from "../Procedures/POSTs/POSTCadastroEstabelecimento";
@@ -23,6 +24,8 @@ import { GETParceiroEstabelecimentoExtrato } from "../Procedures/GETs/GETParceir
 import { GETParceiroEmpresaExtrato } from "../Procedures/GETs/GETParceiroEmpresaExtrato";
 import { GETParceiroEstoqueHistorico } from "../Procedures/GETs/GETParceiroEstoqueHistorico";
 
+dotenv.config()
+
 // const client = new Pool({
 //     user: "postgres",
 //     host: "localhost",
@@ -32,13 +35,19 @@ import { GETParceiroEstoqueHistorico } from "../Procedures/GETs/GETParceiroEstoq
 // })
 
 const client = new Pool({ //conexão com o banco do servidor
-    connectionString: "postgres://nazgdfbw:IjoT_wlcvL0Qq_Qd4Ezv6AY3_nwoqeaw@isabelle.db.elephantsql.com/nazgdfbw", 
+    connectionString: process.env.URLCloud, 
     ssl: {
         rejectUnauthorized: false
     }
 })
 
-client.connect()
+client.connect((err) => {
+    if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err);
+        return;
+    }
+    console.log('Conexão com o banco estabelecida com sucesso!');
+})
 
 const app = express()
 app.use(cors())
@@ -137,7 +146,7 @@ app.get("/recupera-credito-parceiro/:usuarioID", async (req, res) => {
     const retorno = await GETParceiro(client, usuarioID)
 
     if (retorno?.isSucesso) {
-        res.send({ Sucesso: retorno.isSucesso, ParceiroCredito: retorno.retornoParceiro.ParceiroCreditoQuantidade })
+        res.send({ Sucesso: retorno.isSucesso, ParceiroCredito: retorno.retornoParceiro.ParceiroCreditoQuantidade, ParceiroInfo: retorno.retornoParceiro})
     } else {
         res.send({ msg: "Deu ruim" })
     }

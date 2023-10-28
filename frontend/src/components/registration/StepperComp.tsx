@@ -147,7 +147,7 @@ export default function StepperComp() {
     try {
       const retorno = populaObjetos();
       const resultVerificaUsuario = await Axios.post(
-        "http://localhost:3001/verifica-usuario",
+        `${process.env.REACT_APP_BaseURL}/verifica-usuario`,
         {
           email: retorno?.usuario.UsuarioEmail,
         }
@@ -162,7 +162,7 @@ export default function StepperComp() {
       }
 
       if (resultVerificaUsuario.data.msg === "Email válido para cadastro") {
-        const response = await Axios.post("http://localhost:3001/sendEmail", {
+        const response = await Axios.post(`${process.env.REACT_APP_BaseURL}/sendEmail`, {
           email: retorno?.usuario?.UsuarioEmail,
         });
         if (response.data.isSucesso) {
@@ -216,7 +216,7 @@ export default function StepperComp() {
       if (retorno?.usuario.UsuarioTipo === "Parceiro") {
         const resultValidaEmail = await validaEmail();
         if (resultValidaEmail) {
-          await Axios.post("http://localhost:3001/cadastro-parceiro", {
+          await Axios.post(`${process.env.REACT_APP_BaseURL}/cadastro-parceiro`, {
             usuario: retorno.usuario,
             parceiro: retorno.parceiro,
           }).then((response) => {
@@ -244,7 +244,7 @@ export default function StepperComp() {
       if (retorno?.usuario.UsuarioTipo === "Estabelecimento") {
         const resultValidaEmail = await validaEmail();
         if (resultValidaEmail) {
-          await Axios.post("http://localhost:3001/cadastro-estabelecimento", {
+          await Axios.post(`${process.env.REACT_APP_BaseURL}/cadastro-estabelecimento`, {
             usuario: retorno.usuario,
             estabelecimento: retorno.estabelecimento,
           }).then((response) => {

@@ -49,7 +49,7 @@ export default function EstEstoqueHistorico() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/GETParceiroEstoqueHistorico/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETParceiroEstoqueHistorico/${usuarioJson.UsuarioID}`
         );
 
         const parceiroEstoqueHistArray = JSON.parse(

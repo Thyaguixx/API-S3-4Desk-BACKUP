@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import AlteracaoSenha from "./alteracaoSenha";
 import { useNavigate } from "react-router-dom";
+import Axios from 'axios'
 
 const theme = createTheme({
   palette: {
@@ -23,12 +24,24 @@ const theme = createTheme({
 });
 
 export default function Step3Par() {
-
+  const [razaoSocial, setRazaoSocial] = React.useState('' as any)
+  const [nomeFantasia, setNomeFantasia] = React.useState('' as any)
   const [cnpj, setCnpj] = React.useState(''); // Estado para armazenar o CNPJ formatado
+  const [dataInicio, setDataInicio] = React.useState('' as any)
+  const [responsavelEmpresa, setResponsavelEmpresa] = React.useState('' as any)
+  const [volumeOleo, setVolumeOleo] = React.useState('' as any)
+  const [endereco, setEndereco] = React.useState('' as any)
+  const [numero, setNumero] = React.useState('' as any)
+  const [bairro, setBairro] = React.useState('' as any)
+  const [cidade, setCidade] = React.useState('' as any)
+  const [uf, setUf] = React.useState('' as any)
+  const [cidadesAtendem, setCidadesAtendem] = React.useState('' as any)
+  const [princParceiros, setPrincParceiros] = React.useState('' as any)
+
   const [isAlterarSenhaClicked, setIsAlterarSenhaClicked] = React.useState(false);
   const [isInputsVisible, setInputsVisible] = React.useState(true);
   const navigate = useNavigate();
-  
+
   // Função para formatar o CNPJ
   const formatCnpj = (value: string) => {
     // Remove todos os caracteres não numéricos do valor
@@ -51,6 +64,39 @@ export default function Step3Par() {
     setIsAlterarSenhaClicked(true);
     setInputsVisible(false);
   }
+
+  const recuperarInfo = async () => {
+    const usuarioLogado = sessionStorage.getItem('UsuarioLogado')
+
+    if (usuarioLogado) {
+      const usuarioObj = JSON.parse(usuarioLogado)
+
+      const response = await Axios.get(`${process.env.REACT_APP_BaseURL}/recupera-credito-parceiro/${usuarioObj.UsuarioID}`)
+
+      if (response.data.Sucesso) {
+        const parceiro = response.data.ParceiroInfo
+
+        setRazaoSocial(parceiro.ParceiroNomeCompleto)
+        setNomeFantasia(parceiro.ParceiroNomeFantasia)
+        setCnpj(parceiro.ParceiroCNPJ)
+        setDataInicio(parceiro.ParceiroDataCadastro)
+        setResponsavelEmpresa(parceiro.ParceiroResponsavel)
+        setVolumeOleo(parceiro.ParceiroVolumeOleoMensal)
+        setEndereco(parceiro.ParceiroEndereco)
+        setNumero(parceiro.ParceiroEnderecoNumero)
+        setBairro(parceiro.ParceiroBairro)
+        setCidade(parceiro.ParceiroCidade)
+        setUf(parceiro.ParceiroUF)
+        setCidadesAtendem(parceiro.ParceiroCidadesAtendimento)
+        setPrincParceiros(parceiro.ParceiroPrincipaisParceiros)
+      }
+
+    }
+  }
+
+  React.useEffect(() => {
+    recuperarInfo()
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -105,6 +151,7 @@ export default function Step3Par() {
                           fullWidth
                           name="RazaoSocial"
                           label="Razão social"
+                          value={razaoSocial}
                           size="small"
                         />
                       </Grid>
@@ -113,6 +160,7 @@ export default function Step3Par() {
                           fullWidth
                           name="NomeFantasia"
                           label="Nome fantasia"
+                          value={nomeFantasia}
                           size="small"
                         />
                       </Grid>
@@ -133,6 +181,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="DataInicioOp"
+                          value={dataInicio}
                           label="Data de inicio da operação"
                           size="small"
                         />
@@ -141,6 +190,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="ResponsavelEmpresa"
+                          value={responsavelEmpresa}
                           label="Responsável pela empresa"
                           size="small"
                         />
@@ -149,6 +199,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="VolumeOleo"
+                          value={volumeOleo}
                           label="Volume coleta de óleo mensal"
                           size="small"
                         />
@@ -159,6 +210,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="Endereco"
+                          value={endereco}
                           label="Logradouro"
                           size="small"
                         />
@@ -167,6 +219,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="Numero"
+                          value={numero}
                           label="Nº"
                           size="small"
                         />
@@ -175,6 +228,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="Bairro"
+                          value={bairro}
                           label="Bairro"
                           size="small"
                         />
@@ -183,6 +237,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="Cidade"
+                          value={cidade}
                           label="Cidade"
                           size="small"
                         />
@@ -191,6 +246,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="uf"
+                          value={uf}
                           label="UF"
                           size="small"
                           inputProps={{ maxLength: 2 }} // Limita para dois caracteres
@@ -202,9 +258,10 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="CidadesAtendem"
+                          value={cidadesAtendem}
                           label="Cidades que atendem"
                           size="small"
-                          multiline
+                          // multiline
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={6} xl={2}>
@@ -220,6 +277,7 @@ export default function Step3Par() {
                         <TextField
                           fullWidth
                           name="Parceiros"
+                          value={princParceiros}
                           label="Principais parceiros"
                           size="small"
                         // multiline
@@ -264,7 +322,7 @@ export default function Step3Par() {
                 </Box>
               )}
 
-              {isAlterarSenhaClicked && (<AlteracaoSenha />) }
+              {isAlterarSenhaClicked && (<AlteracaoSenha />)}
 
             </Grid>
           </Box>

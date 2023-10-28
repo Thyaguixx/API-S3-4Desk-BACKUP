@@ -35,7 +35,7 @@ export default function EstSaldoMoney() {
         const usuarioJson = JSON.parse(usuarioLogado)
 
         try {
-          const response = await Axios.get(`http://localhost:3001/recupera-credito-estabelecimento/${usuarioJson.UsuarioID}`)
+          const response = await Axios.get(`${process.env.REACT_APP_BaseURL}/recupera-credito-estabelecimento/${usuarioJson.UsuarioID}`)
 
           if (response.data.Sucesso) {
             setCreditoEstab(response.data.EstabCredito)

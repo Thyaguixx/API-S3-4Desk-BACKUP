@@ -64,7 +64,7 @@ export default function ParTransacao() {
   const listaEstabelecimentos = async () => {
     try {
       const response = await Axios.get(
-        "http://localhost:3001/recupera-estabelecimentos"
+        `${process.env.REACT_APP_BaseURL}/recupera-estabelecimentos`
       );
 
       if (response.data.Estabelecimentos) {
@@ -81,7 +81,7 @@ export default function ParTransacao() {
 
   const montaObjEstabelecimento = async (nomeFantasia: any) => {
     const resultado = await Axios.get(
-      `http://localhost:3001/GETEstabelecimentoByNomeFantasia/${nomeFantasia}`
+      `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoByNomeFantasia/${nomeFantasia}`
     );
     if (resultado.data.Estabelecimento) {
       const estabelecimento = resultado.data.Estabelecimento;
@@ -116,7 +116,7 @@ export default function ParTransacao() {
 
     if (estabelecimentoID) {
       const result = await Axios.get(
-        `http://localhost:3001/GETEstabelecimentoEstoquePorTipo/${estabelecimentoID}/${tipoOleo}`
+        `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoEstoquePorTipo/${estabelecimentoID}/${tipoOleo}`
       );
 
       if (result.data.EstabelecimentoEstoque) {
@@ -196,7 +196,7 @@ export default function ParTransacao() {
         };
 
         const resultado = await Axios.post(
-          "http://localhost:3001/POSTTransacaoParceiroEstabelecimento",
+          `${process.env.REACT_APP_BaseURL}/POSTTransacaoParceiroEstabelecimento`,
           {
             EstabelecimentoID: estabelecimentoID,
             EstabelecimentoEstoqueID: estabEstoqueObj.EstabelecimentoEstoqueID,

@@ -108,12 +108,12 @@ console.log('estadoSelecionado:  '+estadoSelecionado);
   }
 
   // Envie o array para o servidor
-  const response = await Axios.post("http://localhost:3001/POSTEstabelecimentoEstoque", {
+  await Axios.post(`${process.env.REACT_APP_BaseURL}/POSTEstabelecimentoEstoque`, {
     usuarioID: usuarioJson.UsuarioID,
     estabelecimentoEstoqueJson: sessionStorage.getItem('estabelecimentoEstoque'),
     EstabelecimentoEstoque: JSON.stringify(estabelecimentoEstoqueArray),
   }).then((response)=>{
-    if(response.data.isSucesso = true){
+    if(response.data.isSucesso === true){
       LimpaCampos()
       MyToast.fire({
         title:'Sucesso',

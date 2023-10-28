@@ -40,7 +40,7 @@ export default function EstExtrato() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/GETParceiroEstabelecimentoExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETParceiroEstabelecimentoExtrato/${usuarioJson.UsuarioID}`
         );
 
         const parceiroEstabelecimentoExtratoArray = JSON.parse(

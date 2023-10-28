@@ -117,7 +117,7 @@ export default function ParEmpTransacao() {
       Data: new Date().toLocaleString()
     }
 
-    const response = await Axios.post("http://localhost:3001/POSTParceiroEmpresa", {
+    await Axios.post(`${process.env.REACT_APP_BaseURL}/POSTParceiroEmpresa`, {
       usuarioID: usuarioJson.UsuarioID,
       empresanome: selectedEmpresa,
       ParceiroEstoqueTipo: estadoSelecionado,

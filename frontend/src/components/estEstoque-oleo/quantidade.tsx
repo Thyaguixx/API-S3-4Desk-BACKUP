@@ -35,7 +35,7 @@ export default function EstEstoqueQuantidade() {
   
       try {
         const response = await Axios.get(
-          `http://localhost:3001/GETEstabelecimentoEstoqueByUsuarioID/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoEstoqueByUsuarioID/${usuarioJson.UsuarioID}`
         );
   
         const estabelecimentoEstoqueArray = JSON.parse(response.data.EstabelecimentoEstoque);

@@ -99,7 +99,7 @@ export default function EstTransacao() {
       TransacaoEstabelecimentoEmpresaData: new Date().toLocaleString(), // Substitua pelo seu valor real
     };
 
-    const response = await Axios.post("http://localhost:3001/POSTEstabelecimentoEmpresa", {
+    await Axios.post(`${process.env.REACT_APP_BaseURL}/POSTEstabelecimentoEmpresa`, {
       usuarioID: usuarioJson.UsuarioID,
       empresanome: selectedEmpresa,
       transacaoEstabelecimentoEmpresa: transacaoEstabelecimentoEmpresa,

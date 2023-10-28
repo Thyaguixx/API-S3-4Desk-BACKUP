@@ -40,7 +40,7 @@ export default function ParExtratoTranferir() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/GETEstabelecimentoEmpresaExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoEmpresaExtrato/${usuarioJson.UsuarioID}`
         );
 
         const estabelecimentoEmpresaExtratoArray = JSON.parse(

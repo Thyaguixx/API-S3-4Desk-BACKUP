@@ -35,7 +35,7 @@ export default function ParEstoqueQuantidade() {
   
       try {
         const response = await Axios.get(
-          `http://localhost:3001/GETListaParceiroEstoque/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETListaParceiroEstoque/${usuarioJson.UsuarioID}`
         );
         const ParceiroEstoqueArray = JSON.parse(response.data.ParceiroEstoque);
             
