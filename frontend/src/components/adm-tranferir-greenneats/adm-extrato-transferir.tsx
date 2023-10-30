@@ -40,17 +40,18 @@ export default function AdmExtratoTranferir() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3001/GETEstabelecimentoEmpresaExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETEmpresaParceiroEmpresaEnviaMoeda/${usuarioJson.UsuarioID}`
         );
 
-        const estabelecimentoEmpresaExtratoArray = JSON.parse(
-          response.data.EstabelecimentoEmpresaExtrato
+        const parceiroEmpresaExtratoArray = JSON.parse(
+          response.data.ParceiroEmpresaExtrato
         );
 
-        if (Array.isArray(estabelecimentoEmpresaExtratoArray)) {
-          setHistData(estabelecimentoEmpresaExtratoArray);
+        if (Array.isArray(parceiroEmpresaExtratoArray)) {
+          setHistData(parceiroEmpresaExtratoArray);
+
         } else {
-          console.log("estabelecimentoEmpresaExtratoArray não é um array ou está vazio.");
+          console.log("parceiroEmpresaExtratoArray não é um array ou está vazio.");
         }
       } catch (error) {
         console.log(error);
@@ -94,7 +95,7 @@ export default function AdmExtratoTranferir() {
               <TableRow>
                 <TableCell align="center">Data da Transação</TableCell>
                 <TableCell align="center">Quantidade de Créditos</TableCell>
-                <TableCell align="center">Nome da Empresa</TableCell>
+                <TableCell align="center">Nome do Parceiro</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

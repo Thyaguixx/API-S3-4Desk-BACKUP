@@ -40,17 +40,18 @@ export default function ParExtratoReceber() {
 
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoEmpresaExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro/${usuarioJson.UsuarioID}`
         );
 
-        const estabelecimentoEmpresaExtratoArray = JSON.parse(
-          response.data.EstabelecimentoEmpresaExtrato
+        const parceiroEmpresaExtratoArray = JSON.parse(
+          response.data.ParceiroEmpresaExtrato
         );
 
-        if (Array.isArray(estabelecimentoEmpresaExtratoArray)) {
-          setHistData(estabelecimentoEmpresaExtratoArray);
+        if (Array.isArray(parceiroEmpresaExtratoArray)) {
+          setHistData(parceiroEmpresaExtratoArray);
+
         } else {
-          console.log("estabelecimentoEmpresaExtratoArray não é um array ou está vazio.");
+          console.log("parceiroEmpresaExtratoArray não é um array ou está vazio.");
         }
       } catch (error) {
         console.log(error);

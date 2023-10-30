@@ -112,7 +112,7 @@ const CadastrarEstoque = async () => {
     usuarioID: usuarioJson.UsuarioID,
     EstabelecimentoEstoque: JSON.stringify(estabelecimentoEstoqueArray),
   }).then((response)=>{
-    if(response.data.isSucesso === true){
+    if(response.data.isSucesso){
       setIsPossible(true)
       LimpaCampos()
       MyToast.fire({

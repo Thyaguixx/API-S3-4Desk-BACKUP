@@ -14,7 +14,7 @@ FROM historicoparceiroempresa hpe
 JOIN parceiroestoque pe ON hpe.parceiroestoqueid = pe.parceiroestoqueid
 JOIN parceiro p ON pe.parceiroid = p.parceiroid
 JOIN empresa e ON hpe.empresaid = e.empresaid
-WHERE p.usuarioid = $1;
+WHERE p.usuarioid = $1 hpe.HistoricoParceiroEmpresaTipoTransacao = 'OleoEmpresa';
       `;
 
   const result = await client.query(query, [usuarioID]);

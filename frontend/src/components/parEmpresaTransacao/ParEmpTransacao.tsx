@@ -122,6 +122,7 @@ export default function ParEmpTransacao() {
       empresanome: selectedEmpresa,
       ParceiroEstoqueTipo: estadoSelecionado,
       HistoricoParceiroEmpresa: HistoricoParceiroEmpresa,
+      TipoTransacao: 'OleoEmpresa',
     }).then((response) => {
       console.log(response.data.isSucesso);
 

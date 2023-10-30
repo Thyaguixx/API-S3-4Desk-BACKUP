@@ -69,7 +69,7 @@ export default function ParCreditoTranferir() {
   const [selectedEmpresa, setSelectedEmpresa] = useState(null); // Estado para armazenar a empresa selecionada
   const [IsPossible, setIsPossible] = useState(false);
 
-  const handleEmpresaChange = (event:any, newValue:any) => {
+  const handleEmpresaChange = (event: any, newValue: any) => {
     setSelectedEmpresa(newValue); // Atualiza a empresa selecionada
   };
 
@@ -80,204 +80,205 @@ export default function ParCreditoTranferir() {
     // Verifica se uma empresa foi selecionada
     if (!selectedEmpresa) {
       MyToast.fire({
-        title:'Selecione uma empresa.',
+        title: 'Selecione uma empresa.',
         icon: 'warning',
       })
       return;
     }
-    if(count1===0){
+    if (count1 === 0) {
       MyToast.fire({
-        title:'Quantidade não pode ser zero.',
+        title: 'Quantidade não pode ser zero.',
         icon: 'warning',
       })
       return;
     }
 
-    const transacaoEstabelecimentoEmpresa = {
-      TransacaoEstabelecimentoEmpresaQuantidade: count1, // Substitua pelo seu valor real
-      TransacaoEstabelecimentoEmpresaDescricao: 'Transação', // Atualizado para usar a empresa selecionada
-      TransacaoEstabelecimentoEmpresaData: new Date().toLocaleString(), // Substitua pelo seu valor real
+    const historicoParceiroEmpresa = {
+      HistoricoParceiroEmpresaCreditoQuantidade: count1, // Substitua pelo seu valor real
+      HistoricoParceiroEmpresaDescricao: 'Transação', // Atualizado para usar a empresa selecionada
+      HistoricoParceiroEmpresaData: new Date().toLocaleString(), // Substitua pelo seu valor real
+      HistoricoParceiroEmpresaTipoTransacao: 'MoedaEmpresa'
     };
 
-    await Axios.post(`${process.env.REACT_APP_BaseURL}/POSTEstabelecimentoEmpresa`, {
+    await Axios.post(`${process.env.REACT_APP_BaseURL}/POSTEnviarMoedaParceiroEmpresa`, {
       usuarioID: usuarioJson.UsuarioID,
       empresanome: selectedEmpresa,
-      transacaoEstabelecimentoEmpresa: transacaoEstabelecimentoEmpresa,
-    }).then((response)=>{
-      if(response.data.isSucesso === true){
+      historicoParceiroEmpresa: historicoParceiroEmpresa,
+    }).then((response) => {
+      if (response.data.isSucesso === true) {
         // LimpaCampos()
         setIsPossible(true)
         MyToast.fire({
-          title:'Transação efetuada com sucesso.',
+          title: 'Transação efetuada com sucesso.',
           icon: 'success',
-        }).then(()=>{
+        }).then(() => {
           window.location.reload()
         })
-      }else{
+      } else {
         setIsPossible(true)
         MyToast.fire({
-          title:'Quantidade insuficiente de créditos.',
+          title: response.data.msg,
           icon: 'warning',
-        }).then(()=>{
+        }).then(() => {
           window.location.reload()
         })
       }
     })
   }
 
-return (
-  <ThemeProvider theme={theme}>
-    <div style={{
-      position: 'fixed',
-      top: '42%',
-      border: '1px solid #000',
-      borderColor: 'grey',
-      borderRadius: '10px',
-      width: '68.5%',
-      height: '48%',
-      zIndex: 0,
-      marginLeft: '0%'
-
-    }}
-    ></div>
-
-
-    <div
-      style={{
+  return (
+    <ThemeProvider theme={theme}>
+      <div style={{
         position: 'fixed',
-        top: '45%',
-        marginLeft: '2%',
+        top: '42%',
+        border: '1px solid #000',
+        borderColor: 'grey',
+        borderRadius: '10px',
+        width: '68.5%',
+        height: '48%',
+        zIndex: 0,
+        marginLeft: '0%'
+
       }}
-    >
-      <ListItem disablePadding>
-        <ListItemIcon>
-          <ArrowForwardIcon sx={{
-            color: '#136935'
-          }} />
-        </ListItemIcon>
-        <Typography variant="h5">Transferir Greenneats</Typography>
-      </ListItem>
-    </div>
-
-    <div
-      style={{
-        position: 'fixed',
-        top: '51%',
-        width: '64%',
-        marginLeft: '2%',
-        zIndex:'100'
-      }}
-    >
-     
-
-      {/* SELECIONAR A EMPRESA JÁ EXISTENTE*/}
-      <Autocomplete
-        disablePortal
-        id="combo-box-demo"
-        options={empresas}
-        value={selectedEmpresa}
-        onChange={handleEmpresaChange} // Associa a função de atualização
-        sx={{ width: '100%' }}
-        renderInput={(params) => <TextField {...params} label="Empresa que deseja transferir" />}
-      />
-    </div>
+      ></div>
 
 
-
-    <div
-      style={{
-        position: 'fixed',
-        top: '60%',
-        width: '65%',
-      }}
-    >
-      <ListItemText inset primary="Defina a quantidade de greenneats que deseja tranferir:"
-        sx={{ marginLeft: '-3%' }} />
-
-    </div>
-
-    <div style={{
-      position: 'fixed',
-      top: '68%',
-      border: '1px solid #000',
-      borderColor: 'grey',
-      borderRadius: '10px',
-      marginLeft: '27%'
-
-    }}>
-      <Button
-        aria-label="reduce"
-        onClick={() => {
-          setCount1(Math.max(count1 - 1, 0));
+      <div
+        style={{
+          position: 'fixed',
+          top: '45%',
+          marginLeft: '2%',
         }}
       >
-        <RemoveIcon fontSize="small" />
-      </Button>
-
-      {/* NÚMERO CONTAGEM */}
-      <Badge color="secondary">
-        <span style={{ fontSize: '24px' }}>{count1}</span>
-      </Badge>
-
-      {/* BOTÃO + */}
-      <Button
-        aria-label="increase"
-        onClick={() => {
-          setCount1(count1 + 1);
-        }}
-      >
-        <AddIcon fontSize="small" />
-      </Button>
-
-      {/* TEXTO */}
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <div style={{ fontSize: '70%', marginLeft: '2%', marginTop: '5%' }}>greenneats</div>
+        <ListItem disablePadding>
+          <ListItemIcon>
+            <ArrowForwardIcon sx={{
+              color: '#136935'
+            }} />
+          </ListItemIcon>
+          <Typography variant="h5">Transferir Greenneats</Typography>
+        </ListItem>
       </div>
-    </div>
-    {/* </Grid> */}
+
+      <div
+        style={{
+          position: 'fixed',
+          top: '51%',
+          width: '64%',
+          marginLeft: '2%',
+          zIndex: '100'
+        }}
+      >
+
+
+        {/* SELECIONAR A EMPRESA JÁ EXISTENTE*/}
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={empresas}
+          value={selectedEmpresa}
+          onChange={handleEmpresaChange} // Associa a função de atualização
+          sx={{ width: '100%' }}
+          renderInput={(params) => <TextField {...params} label="Empresa que deseja transferir" />}
+        />
+      </div>
+
+
+
+      <div
+        style={{
+          position: 'fixed',
+          top: '60%',
+          width: '65%',
+        }}
+      >
+        <ListItemText inset primary="Defina a quantidade de greenneats que deseja tranferir:"
+          sx={{ marginLeft: '-3%' }} />
+
+      </div>
+
+      <div style={{
+        position: 'fixed',
+        top: '68%',
+        border: '1px solid #000',
+        borderColor: 'grey',
+        borderRadius: '10px',
+        marginLeft: '27%'
+
+      }}>
+        <Button
+          aria-label="reduce"
+          onClick={() => {
+            setCount1(Math.max(count1 - 1, 0));
+          }}
+        >
+          <RemoveIcon fontSize="small" />
+        </Button>
+
+        {/* NÚMERO CONTAGEM */}
+        <Badge color="secondary">
+          <span style={{ fontSize: '24px' }}>{count1}</span>
+        </Badge>
+
+        {/* BOTÃO + */}
+        <Button
+          aria-label="increase"
+          onClick={() => {
+            setCount1(count1 + 1);
+          }}
+        >
+          <AddIcon fontSize="small" />
+        </Button>
+
+        {/* TEXTO */}
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ fontSize: '70%', marginLeft: '2%', marginTop: '5%' }}>greenneats</div>
+        </div>
+      </div>
+      {/* </Grid> */}
 
 
 
 
-    <div style={{
-      position: 'fixed',
-      alignItems: 'center',
-      top: '80%',
-      marginLeft: '23%',
+      <div style={{
+        position: 'fixed',
+        alignItems: 'center',
+        top: '80%',
+        marginLeft: '23%',
 
-    }}>
-      {/* BOTÕES DE BAIXO */}
+      }}>
+        {/* BOTÕES DE BAIXO */}
 
-      <ThemeProvider theme={theme}>
-        <Stack spacing={3} direction="row">
+        <ThemeProvider theme={theme}>
+          <Stack spacing={3} direction="row">
 
-          {/*BOTÃO CANCELAR*/}
-          <Button
-            variant={selectedButton === "Extrato" ? "contained" : "outlined"}
-            onClick={() => handleButtonClick("Extrato")}
-          >
-            cancelar
-          </Button>
+            {/*BOTÃO CANCELAR*/}
+            <Button
+              variant={selectedButton === "Extrato" ? "contained" : "outlined"}
+              onClick={() => handleButtonClick("Extrato")}
+            >
+              cancelar
+            </Button>
 
-          <Box sx={{ width: '15%' }} />
+            <Box sx={{ width: '15%' }} />
 
-          {/*BOTÃO TRANSFERIR*/}
-          <Button
-            variant={selectedButton === "Transação" ? "contained" : "outlined"}
-            onClick={POSTTransacaoEstabelecimentoEmpresa}
-            disabled={IsPossible}
-          >
-            transferir
-          </Button>
-        </Stack>
+            {/*BOTÃO TRANSFERIR*/}
+            <Button
+              variant={selectedButton === "Transação" ? "contained" : "outlined"}
+              onClick={POSTTransacaoEstabelecimentoEmpresa}
+              disabled={IsPossible}
+            >
+              transferir
+            </Button>
+          </Stack>
 
-      </ThemeProvider>
+        </ThemeProvider>
 
-    </div>
+      </div>
 
 
-  </ThemeProvider >
-);
+    </ThemeProvider >
+  );
 }
 
 

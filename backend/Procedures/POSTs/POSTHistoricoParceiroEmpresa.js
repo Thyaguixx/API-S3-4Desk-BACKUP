@@ -56,7 +56,7 @@ export async function POSTParceiroEmpresa(client, UsuarioID, ParceiroEstoqueTipo
     // 3. Insere na tabela HistoricoParceiroEmpresa
     LocalERRO = '  INSERT HistoricoParceiroEmpresa'
     const insertHistoricoParceiroEmpresaQuery = {
-      text: 'INSERT INTO HistoricoParceiroEmpresa (EmpresaID, parceiroestoqueid, HistoricoParceiroEmpresaDescricao, HistoricoParceiroEmpresaProdutoDescricao, HistoricoParceiroEmpresaProdutoQuantidade, HistoricoParceiroEmpresaCreditoQuantidade, HistoricoParceiroEmpresaData) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      text: 'INSERT INTO HistoricoParceiroEmpresa (EmpresaID, parceiroestoqueid, HistoricoParceiroEmpresaDescricao, HistoricoParceiroEmpresaProdutoDescricao, HistoricoParceiroEmpresaProdutoQuantidade, HistoricoParceiroEmpresaCreditoQuantidade, HistoricoParceiroEmpresaData, HistoricoParceiroEmpresaTipoTransacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
       values: [
         empresaid,
         parceiroestoqueid,
@@ -64,7 +64,8 @@ export async function POSTParceiroEmpresa(client, UsuarioID, ParceiroEstoqueTipo
         HistoricoParceiroEmpresa.ProdutoDescricao,
         HistoricoParceiroEmpresa.ProdutoQuantidade,
         HistoricoParceiroEmpresa.CreditoQuantidade,
-        HistoricoParceiroEmpresa.Data
+        HistoricoParceiroEmpresa.Data,
+        HistoricoParceiroEmpresa.TipoTransacao
       ],
     };
     await client.query(insertHistoricoParceiroEmpresaQuery);

@@ -26,28 +26,29 @@ const CustomZero = styled('span')({
 });
 
 export default function ParCreditoTotal() {
-  const [creditoEstab, setCreditoEstab] = React.useState(0)
+  const [creditosParceiro, setCreditosParceiro] = React.useState(0)
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado")
 
-  React.useEffect(() => {
-    const recuperaEstabCredito = async () => {
-      if (usuarioLogado) {
-        const usuarioJson = JSON.parse(usuarioLogado)
+  const recuperaParceiroCredito = async () => {
+    if (usuarioLogado) {
+      const usuarioJson = JSON.parse(usuarioLogado)
 
-        try {
-          const response = await Axios.get(`${process.env.REACT_APP_BaseURL}/recupera-credito-estabelecimento/${usuarioJson.UsuarioID}`)
+      try {
+        const response = await Axios.get(`${process.env.REACT_APP_BaseURL}/recupera-credito-parceiro/${usuarioJson.UsuarioID}`)
 
-          if (response.data.Sucesso) {
-            setCreditoEstab(response.data.EstabCredito)
-          }
-        } catch (error) {
-          console.log(error)
+        if (response.data.Sucesso) {
+          setCreditosParceiro(response.data.ParceiroCredito)
         }
+      } catch (error) {
+        console.log(error)
       }
     }
+  }
 
-    recuperaEstabCredito()
+  React.useEffect(() => {
+    recuperaParceiroCredito()
   }, [])
+
 
   const theme = createTheme({
     palette: {
@@ -121,7 +122,7 @@ export default function ParCreditoTotal() {
               color: "#136935",
             }}
           >
-             0
+             <CustomZero>{creditosParceiro}</CustomZero>
           </Grid>
           <Grid
             item

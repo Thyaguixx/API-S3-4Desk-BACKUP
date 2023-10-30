@@ -31,6 +31,7 @@ const theme = createTheme({
 });
 
 export default function ParExtratoTranferir() {
+
   const [histData, setHistData] = React.useState<HistoricoData[]>([]);
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
 
@@ -40,17 +41,18 @@ export default function ParExtratoTranferir() {
 
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_BaseURL}/GETEstabelecimentoEmpresaExtrato/${usuarioJson.UsuarioID}`
+          `${process.env.REACT_APP_BaseURL}/GETParceiroEmpresaExtratoMoeda/${usuarioJson.UsuarioID}`
         );
 
-        const estabelecimentoEmpresaExtratoArray = JSON.parse(
-          response.data.EstabelecimentoEmpresaExtrato
+        const parceiroEmpresaExtratoArray = JSON.parse(
+          response.data.ParceiroEmpresaExtrato
         );
 
-        if (Array.isArray(estabelecimentoEmpresaExtratoArray)) {
-          setHistData(estabelecimentoEmpresaExtratoArray);
+        if (Array.isArray(parceiroEmpresaExtratoArray)) {
+          setHistData(parceiroEmpresaExtratoArray);
+
         } else {
-          console.log("estabelecimentoEmpresaExtratoArray não é um array ou está vazio.");
+          console.log("parceiroEmpresaExtratoArray não é um array ou está vazio.");
         }
       } catch (error) {
         console.log(error);
@@ -87,9 +89,9 @@ export default function ParExtratoTranferir() {
           height: '50%'
         }}
       >
-       
-     <TableContainer sx={{height:'87%'}}>
-          <Table sx={{ minWidth: 650, height:'100px' }} size="small" aria-label="simple table">
+
+        <TableContainer sx={{ height: '87%' }}>
+          <Table sx={{ minWidth: 650, height: '100px' }} size="small" aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="center">Data da Transação</TableCell>
@@ -98,7 +100,7 @@ export default function ParExtratoTranferir() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {histData.map((historico, index) => (
+            {histData.map((historico, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">
                     {historico.data_transacao}
@@ -113,7 +115,7 @@ export default function ParExtratoTranferir() {
               ))}
             </TableBody>
           </Table>
-          </TableContainer>
+        </TableContainer>
       </div>
     </ThemeProvider>
   );

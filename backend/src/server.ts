@@ -23,23 +23,29 @@ import { GETEstabelecimentoEmpresaExtrato } from "../Procedures/GETs/GETEstabele
 import { GETParceiroEstabelecimentoExtrato } from "../Procedures/GETs/GETParceiroEstabelecimentoExtrato";
 import { GETParceiroEmpresaExtrato } from "../Procedures/GETs/GETParceiroEmpresaExtrato";
 import { GETParceiroEstoqueHistorico } from "../Procedures/GETs/GETParceiroEstoqueHistorico";
+import { POSTEnviarMoedaParceiroEmpresa } from "../Procedures/POSTs/POSTEnviarMoedaParceiroEmpresa";
+import { GETParceiroEmpresaExtratoMoeda } from "../Procedures/GETs/GETParceiroEmpresaExtratoMoeda";
+import { GETListaParceiroNomes } from "../Procedures/GETs/GETListaParceiroNomes";
+import { POSTEmpresaEnviarMoedaParceiro } from "../Procedures/POSTs/POSTEmpresaEnviarMoedaParceiro";
+import { GETEmpresaParceiroEmpresaEnviaMoeda } from "../Procedures/GETs/GETEmpresaParceiroEmpresaEnviaMoeda";
+import { GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro } from "../Procedures/GETs/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro";
 
 dotenv.config()
 
-// const client = new Pool({
-//     user: "postgres",
-//     host: "localhost",
-//     database: "API - 4Desk",    //trocar para o nome do seu banco local
-//     password: "thygas020",      //trocar para a senha do seu banco local
-//     port: 5432
-// })
-
-const client = new Pool({ //conexão com o banco do servidor
-    connectionString: process.env.URLCloud, 
-    ssl: {
-        rejectUnauthorized: false
-    }
+const client = new Pool({
+    user: "postgres",
+    host: "localhost",
+    database: "API - 4Desk",    //trocar para o nome do seu banco local
+    password: "123",      //trocar para a senha do seu banco local
+    port: 5432
 })
+
+// const client = new Pool({ //conexão com o banco do servidor
+//     connectionString: process.env.URLCloud, 
+//     ssl: {
+//         rejectUnauthorized: false
+//     }
+// })
 
 client.connect((err) => {
     if (err) {
@@ -214,6 +220,20 @@ app.get("/recupera-estabelecimentos", async (req, res) => {
 
 })
 
+app.get("/recupera-parceiros", async (req, res) => {
+
+    const resultParceiros = await GETListaParceiroNomes(client)
+
+    if (resultParceiros.isSucesso) {
+        res.send({ Parceiros: resultParceiros });
+        // console.log('RESULTADO DO GET PARCEIROS: '+JSON.stringify(resultParceiros));
+        
+    } else {
+        console.log('Nenhum estabelecimento encontrado.');
+    }
+
+})
+
 app.get("/GETEstabelecimentoEstoqueByUsuarioID/:usuarioID", async (req, res) => {
 
     const { usuarioID } = req.params
@@ -342,6 +362,23 @@ app.get("/GETParceiroEmpresaExtrato/:usuarioID", async (req, res)=>{
       .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
 })
 
+
+app.get("/GETParceiroEmpresaExtratoMoeda/:usuarioID", async (req, res)=>{
+
+    const { usuarioID } = req.params
+    
+    GETParceiroEmpresaExtratoMoeda(client,usuarioID)
+    
+      .then(parcEmpresaExtrato =>{
+        
+        var ParceiroEmpresaExtrato = JSON.stringify(parcEmpresaExtrato)
+        // console.log('Historico parceiro e empresa   '+ ParceiroEmpresaExtrato)
+
+        res.send({msg:'GET com sucesso', ParceiroEmpresaExtrato:ParceiroEmpresaExtrato})
+      } )
+      .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
+})
+
 app.get("/GETParceiroEstoqueHistorico/:usuarioID", async (req, res)=>{
 
     const { usuarioID } = req.params
@@ -357,6 +394,72 @@ app.get("/GETParceiroEstoqueHistorico/:usuarioID", async (req, res)=>{
       } )
       .catch(error => console.error('Erro ao obter o historico do parceiro:', error));
 })
+
+app.post('/POSTEnviarMoedaParceiroEmpresa', async (req, res)=>{
+    const { usuarioID } =  req.body
+    const { empresanome } = req.body
+    const { historicoParceiroEmpresa } = req.body
+
+    const returnPOSTEnvia = POSTEnviarMoedaParceiroEmpresa(client, empresanome.label, historicoParceiroEmpresa, usuarioID)
+    res.send({msg: (await returnPOSTEnvia).mensagem, isSucesso: (await returnPOSTEnvia).isSucesso})
+    // console.log((await returnPOSTEnvia).mensagem);
+    
+})
+
+app.post('/POSTEmpresaEnviarMoedaParceiro', async (req, res)=>{
+    const { usuarioID } =  req.body
+    const { parceironome } = req.body
+    const { HistoricoParceiroEmpresa } = req.body
+
+    const returnPOSTEnvia = POSTEmpresaEnviarMoedaParceiro(client, parceironome.parceiroNomefantasia, HistoricoParceiroEmpresa, usuarioID)
+    res.send({msg: (await returnPOSTEnvia).mensagem, isSucesso: (await returnPOSTEnvia).isSucesso})
+    // console.log((await returnPOSTEnvia).mensagem);
+    
+})
+
+app.get("/GETListaParceiroNomes", async (req, res) => {
+
+    const retornoParceiroNomes = await GETListaParceiroNomes(client)
+    
+    if (retornoParceiroNomes) {
+        res.send({ ParceiroNomes: JSON.stringify(retornoParceiroNomes)})
+    } else {
+        console.log('Nenhum parceiro encontrado.');
+    }
+})
+
+app.get("/GETEmpresaParceiroEmpresaEnviaMoeda/:usuarioID", async (req, res)=>{
+
+    const { usuarioID } = req.params
+    
+    GETEmpresaParceiroEmpresaEnviaMoeda(client,usuarioID)
+    
+      .then(parcEmpresaExtrato =>{
+        
+        var ParceiroEmpresaExtrato = JSON.stringify(parcEmpresaExtrato)
+        // console.log('Historico parceiro e empresa   '+ ParceiroEmpresaExtrato)
+
+        res.send({msg:'GET com sucesso', ParceiroEmpresaExtrato:ParceiroEmpresaExtrato})
+      } )
+      .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
+})
+
+app.get("/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro/:usuarioID", async (req, res)=>{
+
+    const { usuarioID } = req.params
+    
+    GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro(client,usuarioID)
+    
+      .then(parcEmpresaExtrato =>{
+        
+        var ParceiroEmpresaExtrato = JSON.stringify(parcEmpresaExtrato)
+        // console.log('Historico parceiro e empresa   '+ ParceiroEmpresaExtrato)
+
+        res.send({msg:'GET com sucesso', ParceiroEmpresaExtrato:ParceiroEmpresaExtrato})
+      } )
+      .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
+})
+
 
 app.listen(3001, () => {
     console.log("Servidor rodando!")
