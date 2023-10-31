@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import AlteracaoSenha from "./alteracaoSenha";
 import { useNavigate } from "react-router-dom";
 import Axios from 'axios'
+import { MyToast } from "../Alerts/swal-mixin";
 
 const theme = createTheme({
   palette: {
@@ -65,6 +66,12 @@ export default function Step3Par() {
     setInputsVisible(false);
   }
 
+  const handleClickAlterarInfo = () => {
+    setIsAlterarSenhaClicked(false);
+    setInputsVisible(true);
+  }
+
+
   const recuperarInfo = async () => {
     const usuarioLogado = sessionStorage.getItem('UsuarioLogado')
 
@@ -98,6 +105,51 @@ export default function Step3Par() {
     recuperarInfo()
   }, [])
 
+
+  const atualizarInfo = async (event: any) => {
+    event.preventDefault()
+
+    const usuarioLogado = sessionStorage.getItem('UsuarioLogado')
+
+    if (usuarioLogado) {
+      const usuarioObj = JSON.parse(usuarioLogado)
+
+      const parceiro = {
+        ParceiroNomeFantasia: nomeFantasia,
+        ParceiroNomeCompleto: razaoSocial,
+        ParceiroResponsavel: responsavelEmpresa,
+        ParceiroDataCadastro: dataInicio,
+        ParceiroCNPJ: cnpj,
+        ParceiroVolumeOleoMensal: volumeOleo,
+        ParceiroEndereco: endereco,
+        ParceiroEnderecoNumero: numero,
+        ParceiroBairro: bairro,
+        ParceiroCidade: cidade,
+        ParceiroUF: uf,
+        ParceiroCidadesAtendimento: cidadesAtendem,
+        ParceiroPrincipaisParceiros: princParceiros,
+      }
+
+      const result = await Axios.put(`${process.env.REACT_APP_BaseURL}/editarUsuarioParceiro`, {
+        parceiroInfo: parceiro,
+        usuarioID: usuarioObj.UsuarioID
+      })
+
+      if (result.data.Sucesso) {
+        MyToast.fire({
+          title: result.data.msg,
+          icon: 'success'
+        }).then(() => window.location.reload())
+      } else {
+        MyToast.fire({
+          title: result.data.msg,
+          icon: 'error'
+        })
+      }
+    }
+
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
@@ -118,28 +170,49 @@ export default function Step3Par() {
 
               <Grid item xs={9}>
                 <Typography sx={{ ml: 5, mb: 1, fontSize: '20px' }}>
-                  Editar Informações:
+                  {isAlterarSenhaClicked ? 'Editar senha:' : 'Editar Informações:'}
                 </Typography>
               </Grid>
 
               <Grid item xs={3}>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    borderRadius: 20,
-                    width: '80%', // Use 100% da largura da coluna
-                    height: 40,
-                    backgroundColor: "#136935",
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: "white", // Mantém a cor de fundo durante o hover
-                      color: '#136935', // Define a cor do texto como branco durante o hover
-                    },
-                  }}
-                  onClick={handleClickAlteraSenha}
-                >
-                  Alterar senha
-                </Button>
+                {!isAlterarSenhaClicked ? (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      borderRadius: 20,
+                      width: '80%', // Use 100% da largura da coluna
+                      height: 40,
+                      backgroundColor: "#136935",
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: "white", // Mantém a cor de fundo durante o hover
+                        color: '#136935', // Define a cor do texto como branco durante o hover
+                      },
+                    }}
+                    onClick={handleClickAlteraSenha}
+                  >
+                    Alterar senha
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      borderRadius: 20,
+                      width: '80%', // Use 100% da largura da coluna
+                      height: 40,
+                      backgroundColor: "#136935",
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: "white", // Mantém a cor de fundo durante o hover
+                        color: '#136935', // Define a cor do texto como branco durante o hover
+                      },
+                    }}
+                    onClick={handleClickAlterarInfo}
+                  >
+                    Alterar informações'
+                  </Button>
+                )}
+
               </Grid>
 
               {isInputsVisible && (
@@ -153,6 +226,7 @@ export default function Step3Par() {
                           label="Razão social"
                           value={razaoSocial}
                           size="small"
+                          onChange={(event) => setRazaoSocial(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
@@ -162,6 +236,7 @@ export default function Step3Par() {
                           label="Nome fantasia"
                           value={nomeFantasia}
                           size="small"
+                          onChange={(event) => setNomeFantasia(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
@@ -184,6 +259,7 @@ export default function Step3Par() {
                           value={dataInicio}
                           label="Data de inicio da operação"
                           size="small"
+                          onChange={(event) => setDataInicio(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
@@ -193,6 +269,7 @@ export default function Step3Par() {
                           value={responsavelEmpresa}
                           label="Responsável pela empresa"
                           size="small"
+                          onChange={(event) => setResponsavelEmpresa(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
@@ -202,6 +279,7 @@ export default function Step3Par() {
                           value={volumeOleo}
                           label="Volume coleta de óleo mensal"
                           size="small"
+                          onChange={(event) => setVolumeOleo(event.target.value)}
                         />
                       </Grid>
                     </Grid>
@@ -213,6 +291,7 @@ export default function Step3Par() {
                           value={endereco}
                           label="Logradouro"
                           size="small"
+                          onChange={(event) => setEndereco(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={1} xl={2}>
@@ -222,6 +301,7 @@ export default function Step3Par() {
                           value={numero}
                           label="Nº"
                           size="small"
+                          onChange={(event) => setNumero(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={3} xl={2}>
@@ -231,6 +311,7 @@ export default function Step3Par() {
                           value={bairro}
                           label="Bairro"
                           size="small"
+                          onChange={(event) => setBairro(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={3} xl={2}>
@@ -240,6 +321,7 @@ export default function Step3Par() {
                           value={cidade}
                           label="Cidade"
                           size="small"
+                          onChange={(event) => setCidade(event.target.value)}
                         />
                       </Grid>
                       <Grid item xs={12} sm={12} md={12} lg={1} xl={2}>
@@ -250,6 +332,7 @@ export default function Step3Par() {
                           label="UF"
                           size="small"
                           inputProps={{ maxLength: 2 }} // Limita para dois caracteres
+                          onChange={(event) => setUf(event.target.value)}
                         />
                       </Grid>
                     </Grid>
@@ -261,10 +344,11 @@ export default function Step3Par() {
                           value={cidadesAtendem}
                           label="Cidades que atendem"
                           size="small"
-                          // multiline
+                          onChange={(event) => setCidadesAtendem(event.target.value)}
+                        // multiline
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={6} xl={2}>
+                      {/* <Grid item xs={12} sm={12} md={12} lg={6} xl={2}>
                         <TextField
                           fullWidth
                           name="numeroContato"
@@ -272,7 +356,7 @@ export default function Step3Par() {
                           size="small"
                         // multiline
                         />
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={12} sm={12} md={12} lg={12} xl={1}>
                         <TextField
                           fullWidth
@@ -280,6 +364,7 @@ export default function Step3Par() {
                           value={princParceiros}
                           label="Principais parceiros"
                           size="small"
+                          onChange={(event) => setPrincParceiros(event.target.value)}
                         // multiline
                         />
                       </Grid>
@@ -311,6 +396,7 @@ export default function Step3Par() {
                             ml: 1, // Adicione uma margem à esquerda para separar os botões
                             mt: 5
                           }}
+                          onClick={atualizarInfo}
                         >
                           Confirmar
                         </Button>

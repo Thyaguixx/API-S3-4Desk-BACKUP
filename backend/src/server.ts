@@ -29,6 +29,8 @@ import { GETListaParceiroNomes } from "../Procedures/GETs/GETListaParceiroNomes"
 import { POSTEmpresaEnviarMoedaParceiro } from "../Procedures/POSTs/POSTEmpresaEnviarMoedaParceiro";
 import { GETEmpresaParceiroEmpresaEnviaMoeda } from "../Procedures/GETs/GETEmpresaParceiroEmpresaEnviaMoeda";
 import { GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro } from "../Procedures/GETs/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro";
+import { PUTUsuarioSenha } from "../Procedures/PUTs/PUTUsuarioSenha";
+import { PUTParceiro } from "../Procedures/PUTs/PUTParceiro";
 
 dotenv.config()
 
@@ -36,7 +38,7 @@ const client = new Pool({
     user: "postgres",
     host: "localhost",
     database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "123",      //trocar para a senha do seu banco local
+    password: "thygas020",      //trocar para a senha do seu banco local
     port: 5432
 })
 
@@ -460,6 +462,50 @@ app.get("/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro/:usuarioID", async (req
       .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
 })
 
+app.put("/alterarSenha", async (req, res) => {
+    const { usuarioID } = req.body
+    const { novaSenha } = req.body
+
+    const resultado = await PUTUsuarioSenha(client, usuarioID, novaSenha)
+
+    if (resultado?.isSucesso) {
+        res.send({ msg: "Senha atualizada com sucesso.", Sucesso: resultado.isSucesso})
+    } else {
+        console.log({msg: "Erro ao atualizar senha.", Sucesso: false, resultado: resultado})
+        res.send({msg: "Erro ao atualizar senha.", Sucesso: false})
+    }
+
+})
+
+app.put("/editarUsuarioParceiro", async (req, res) => {
+    const { parceiroInfo } = req.body
+    const { usuarioID } = req.body
+
+    const resultado = await PUTParceiro(client, usuarioID, parceiroInfo)
+
+    if (resultado?.isSucesso) {
+        res.send({ msg: "Suas informações foram atualizada com sucesso.", Sucesso: resultado.isSucesso})
+    } else {
+        console.log({msg: "Erro ao atualizar parceiro.", Sucesso: resultado?.isSucesso})
+        res.send({msg: "Erro ao atualizar parceiro.", Sucesso: false})
+    }
+
+})
+
+// app.put("/editarUsuarioEstabelecimento", async (req, res) => {
+//     const { estabelecimentoInfo } = req.body
+//     const { usuarioID } = req.body
+
+//     // const resultado = await PUTParceiro(client, usuarioID, parceiroInfo)
+
+//     // if (resultado?.isSucesso) {
+//     //     res.send({ msg: "Suas informações foram atualizada com sucesso.", Sucesso: resultado.isSucesso})
+//     // } else {
+//     //     console.log({msg: "Erro ao atualizar parceiro.", Sucesso: false})
+//     //     res.send({msg: "Erro ao atualizar parceiro.", Sucesso: false})
+//     // }
+
+// })
 
 app.listen(3001, () => {
     console.log("Servidor rodando!")
