@@ -160,7 +160,7 @@ export default function Step3Par() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: "80%",
+            height: "100%",
             width: "100%",
             // padding: '5%',
             mt: 20,
@@ -181,7 +181,6 @@ export default function Step3Par() {
                     sx={{
                       borderRadius: 20,
                       width: '80%', // Use 100% da largura da coluna
-                      height: 40,
                       backgroundColor: "#136935",
                       color: 'white',
                       '&:hover': {
@@ -209,7 +208,7 @@ export default function Step3Par() {
                     }}
                     onClick={handleClickAlterarInfo}
                   >
-                    Alterar informações'
+                    Alterar informações
                   </Button>
                 )}
 
@@ -219,7 +218,7 @@ export default function Step3Par() {
                 <Box margin={1} display="flex" flexDirection="column" >
                   <Grid container direction="column" padding={4} spacing={2}>
                     <Grid container item direction="row" spacing={2}>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2} >
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4} >
                         <TextField
                           fullWidth
                           name="RazaoSocial"
@@ -229,7 +228,7 @@ export default function Step3Par() {
                           onChange={(event) => setRazaoSocial(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="NomeFantasia"
@@ -239,7 +238,7 @@ export default function Step3Par() {
                           onChange={(event) => setNomeFantasia(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="cnpj"
@@ -252,7 +251,7 @@ export default function Step3Par() {
                       </Grid>
                     </Grid>
                     <Grid container item direction="row" spacing={2}>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="DataInicioOp"
@@ -262,7 +261,7 @@ export default function Step3Par() {
                           onChange={(event) => setDataInicio(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="ResponsavelEmpresa"
@@ -272,7 +271,7 @@ export default function Step3Par() {
                           onChange={(event) => setResponsavelEmpresa(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="VolumeOleo"
@@ -284,7 +283,7 @@ export default function Step3Par() {
                       </Grid>
                     </Grid>
                     <Grid container item direction="row" spacing={2}>
-                      <Grid item xs={12} sm={12} md={12} lg={4} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={4} xl={4}>
                         <TextField
                           fullWidth
                           name="Endereco"
@@ -294,7 +293,7 @@ export default function Step3Par() {
                           onChange={(event) => setEndereco(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={1} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
                         <TextField
                           fullWidth
                           name="Numero"
@@ -304,7 +303,7 @@ export default function Step3Par() {
                           onChange={(event) => setNumero(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={3} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
                         <TextField
                           fullWidth
                           name="Bairro"
@@ -314,7 +313,7 @@ export default function Step3Par() {
                           onChange={(event) => setBairro(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={3} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}>
                         <TextField
                           fullWidth
                           name="Cidade"
@@ -324,7 +323,7 @@ export default function Step3Par() {
                           onChange={(event) => setCidade(event.target.value)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={12} md={12} lg={1} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
                         <TextField
                           fullWidth
                           name="uf"
@@ -337,7 +336,7 @@ export default function Step3Par() {
                       </Grid>
                     </Grid>
                     <Grid container item direction="row" spacing={2}>
-                      <Grid item xs={12} sm={12} md={12} lg={6} xl={2}>
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <TextField
                           fullWidth
                           name="CidadesAtendem"
@@ -357,7 +356,7 @@ export default function Step3Par() {
                         // multiline
                         />
                       </Grid> */}
-                      <Grid item xs={12} sm={12} md={12} lg={12} xl={1}>
+                      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <TextField
                           fullWidth
                           name="Parceiros"

@@ -32,65 +32,65 @@ export default function AdmUsuarioHistorico() {
     createData('Rita', 262, 16.0),
   ];
 
-    // function handleEditClick({ event }: { event: MouseEvent<HTMLButtonElement, MouseEvent>; }): void {
-    //     throw new Error("Function not implemented.");
-    // }
+  // function handleEditClick({ event }: { event: MouseEvent<HTMLButtonElement, MouseEvent>; }): void {
+  //     throw new Error("Function not implemented.");
+  // }
 
-    return (
-        <ThemeProvider theme={theme}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12} md={12} lg={3} xl={2}></Grid>
-            <Grid item xs={12} sm={12} md={12} lg={8} xl={2}>
-              <Box
-                sx={{
-                  width: isMobile ? "100%" : isTablet ? "100%" : "100%",
-                  backgroundColor: "white",
-                  borderRadius: 5,
-                  borderColor: "gray",
-                  border: 1,
-                  mt: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <TableContainer>
-                  <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">Nome</TableCell>
-                        <TableCell align="center">E-mail</TableCell>
-                        <TableCell align="center">Data</TableCell>
-                        <TableCell align="center"></TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows.map((row) => (
-                        <TableRow
-                          key={row.name}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                          <TableCell align="center">{row.name}</TableCell>
-                          <TableCell align="center">{row.fat}</TableCell>
-                          <TableCell align="center">{row.carbs}</TableCell>
-                          {/* Célula de ações com ícones */}
-                          <TableCell align="center">
-                            <IconButton size="small" >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton size="small" >
-                              <DeleteIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                  <Pagination size='small' sx={{ ml: '35%', mt: '15%' }} count={10} variant="outlined" color="primary" />
-                </TableContainer>
-              </Box>
-            </Grid>
-          </Grid>
-        </ThemeProvider>
-      );
-    }
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
+          <Box
+            sx={{
+              width: isMobile ? "100%" : isTablet ? "100%" : "100%",
+              backgroundColor: "white",
+              borderRadius: 5,
+              borderColor: "gray",
+              border: 1,
+              mt: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Nome</TableCell>
+                    <TableCell align="center">E-mail</TableCell>
+                    <TableCell align="center">Data</TableCell>
+                    <TableCell align="center"></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.name}</TableCell>
+                      <TableCell align="center">{row.fat}</TableCell>
+                      <TableCell align="center">{row.carbs}</TableCell>
+                      {/* Célula de ações com ícones */}
+                      <TableCell align="center">
+                        <IconButton size="small" >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton size="small" >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Pagination size='small' sx={{ ml: '35%', mt: '15%' }} count={10} variant="outlined" color="primary" />
+            </TableContainer>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}

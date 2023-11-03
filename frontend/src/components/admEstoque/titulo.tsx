@@ -40,11 +40,11 @@ export default function AdmEstoqueTitulo() {
         }} >
           <Grid container spacing={1}>
 
-            <Grid item xs={1}>
+            <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
             <img src={boximg} alt="png" width="50%" />
             </Grid>
 
-            <Grid item xs={11}>
+            <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
               <Typography sx={{ fontSize: '25px', fontFamily: 'actor' }}>
                  Estoque de óleo
               </Typography>

@@ -38,7 +38,7 @@ export default function AdmEstoqueSubtitulo() {
           borderRadius: 3
         }} >
           <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
               <Typography sx={{ fontSize: '15px', fontFamily: 'actor' }}>
                 Histórico de óleo recebido dos parceiros:
               </Typography>

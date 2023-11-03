@@ -90,6 +90,13 @@ export default function StepperComp() {
     }
   };
 
+  const limparSessao = () => {
+    sessionStorage.removeItem('dados_step_1')
+    sessionStorage.removeItem('dados_step_2')
+    sessionStorage.removeItem('dados_step_3')
+    sessionStorage.removeItem('TokenValidaEmail')
+  }
+
   const populaObjetos = () => {
     const itemJson_Step2 = sessionStorage.getItem("dados_step_2");
     const itemJson_Step3 = sessionStorage.getItem("dados_step_3");
@@ -230,7 +237,10 @@ export default function StepperComp() {
               MyToast.fire({
                 icon: "success",
                 title: response.data.msg,
-              }).then(() => navigate("/parceiro-saldo"));
+              }).then(() => {
+                navigate("/parceiro-saldo")
+                limparSessao()
+              });
             } else if (!response.data.Sucesso) {
               MyToast.fire({
                 icon: "error",
@@ -258,7 +268,10 @@ export default function StepperComp() {
               MyToast.fire({
                 icon: "success",
                 title: response.data.msg,
-              }).then(() => navigate("/estabelecimento-saldo"));
+              }).then(() => {
+                navigate("/estabelecimento-saldo")
+                limparSessao()
+              });
             } else if (!response.data.Sucesso) {
               MyToast.fire({
                 icon: "error",

@@ -49,9 +49,9 @@ export default function AdmHistorico() {
     <ThemeProvider theme={theme}>
         
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={3} xl={2}></Grid>
+      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
 
-      <Grid item xs={12} sm={12} md={12} lg={8} xl={2}>
+      <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
     <Box
       sx={{
         width: isMobile ? "100%" : isTablet ? "100%" : "100%",

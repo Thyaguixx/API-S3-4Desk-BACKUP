@@ -27,9 +27,9 @@ export default function BarraPesquisa() {
   return (
     <ThemeProvider theme={theme}>
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={3} xl={12}></Grid>
+      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
 
-      <Grid item xs={12} sm={12} md={12} lg={8} xl={12}>
+      <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
     <Paper
       component="form"
       sx={{  display: 'flex', alignItems: 'center', mt: 5,

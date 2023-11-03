@@ -117,10 +117,10 @@ export default function AlteracaoSenha() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: "30%",
+            height: "100%",
             width: "100%",
             //   padding: '5%',
-            mt: 20,
+            mt: 5,
             borderRadius: 3
           }} >
             <Grid container spacing={1}>
@@ -135,7 +135,7 @@ export default function AlteracaoSenha() {
                 <Grid container direction="column" padding={4} spacing={2}>
                   <Grid container item direction="row" spacing={2}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} >
-                      <FormControl sx={{ m: 1, width: '35ch', ml: 10 }} variant="outlined">
+                      <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Senha *</InputLabel>
                         <OutlinedInput
                           id="outlined-adornment-password"
@@ -194,12 +194,12 @@ export default function AlteracaoSenha() {
                   </Grid>
 
                   <Grid container item direction="row" spacing={2}>
-                    <Grid item xs={6}> {/* Dividir o espaço da grid igualmente em 2 colunas */}
+                    <Grid item xs={6} sm={6} md={6} lg={4} xl={4}> {/* Dividir o espaço da grid igualmente em 2 colunas */}
                       <Button
                         variant="outlined"
                         sx={{
                           borderRadius: 20,
-                          width: '90%', // Use 100% da largura da coluna
+                          width: '100%', // Use 100% da largura da coluna
                           height: 40,
                           mt: 5
                         }}
@@ -208,12 +208,12 @@ export default function AlteracaoSenha() {
                       </Button>
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={6} md={6} lg={4} xl={4}>
                       <Button
                         variant="outlined"
                         sx={{
                           borderRadius: 20,
-                          width: '90%', // Use 100% da largura da coluna
+                          width: '100%', // Use 100% da largura da coluna
                           height: 40,
                           ml: 1, // Adicione uma margem à esquerda para separar os botões
                           mt: 5

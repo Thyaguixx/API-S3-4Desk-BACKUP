@@ -31,6 +31,7 @@ import { GETEmpresaParceiroEmpresaEnviaMoeda } from "../Procedures/GETs/GETEmpre
 import { GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro } from "../Procedures/GETs/GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro";
 import { PUTUsuarioSenha } from "../Procedures/PUTs/PUTUsuarioSenha";
 import { PUTParceiro } from "../Procedures/PUTs/PUTParceiro";
+import { GETParceiroEstoquePorTipo } from "../Procedures/GETs/GETParceiroEstoquePorTipoEstoque";
 
 dotenv.config()
 
@@ -38,7 +39,7 @@ const client = new Pool({
     user: "postgres",
     host: "localhost",
     database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "thygas020",      //trocar para a senha do seu banco local
+    password: "123",      //trocar para a senha do seu banco local
     port: 5432
 })
 
@@ -491,6 +492,35 @@ app.put("/editarUsuarioParceiro", async (req, res) => {
     }
 
 })
+
+app.get("/GETParceiroEstoquePorTipo/:parceironome/:estoqueTipo", async (req, res) => {
+    const { parceironome } = req.params
+    const { estoqueTipo } = req.params
+
+    const retornoParcEstoque = await GETParceiroEstoquePorTipo(client, parceironome, estoqueTipo)
+
+    if (retornoParcEstoque) {
+        res.send({ ParceiroEstoque: retornoParcEstoque?.retornoParcEstoque, msg: retornoParcEstoque.isSucesso ? "Sucesso" : "Deu ruim."})
+    } else {
+        console.log('Nenhum estoque encontrado.');
+    }
+})
+
+app.post("/POSTEmpresaCompraOleoParceiro", async (req, res) => {
+    const { ParceiroID } = req.body
+    const { ParceiroEstoqueID } = req.body
+    const { transacaoEmpresaParceiro } = req.body
+    const { UsuarioID } = req.body
+
+    const returnTRN = await realizarTransacaoEstabelecimentoParceiro(client, UsuarioID, ParceiroID, ParceiroEstoqueID, transacaoEmpresaParceiro)
+
+    if (returnTRN?.isSucesso) {
+        res.send({ Sucesso: returnTRN.isSucesso, msg: returnTRN.mensagem })
+    }
+})
+
+
+
 
 // app.put("/editarUsuarioEstabelecimento", async (req, res) => {
 //     const { estabelecimentoInfo } = req.body
