@@ -12,7 +12,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import axios from "axios";
 
+
+interface HistoricoData {
+  data_transacao: string;
+  quantidade_creditos: number;
+  nome_fantasia: string;
+  produto_descricao: string;
+  produto_quantidade: number;
+}
 
 export default function AdmHistorico() {
   const theme = createTheme({
@@ -38,71 +47,104 @@ export default function AdmHistorico() {
   ) {
     return { name, calories, fat, carbs, est, cdd };
   }
-  
-  const rows = [
-    createData(5, 159, 6.0, 24, 'ex', 'ex'),
-    createData(6, 237, 9.0, 37, 'ex', 'ex'),
-    createData(7, 262, 16.0, 24, 'ex', 'ex'),
-  ];
-  
+
+  // const rows = [
+  //   createData(5, 159, 6.0, 24, 'ex', 'ex'),
+  //   createData(6, 237, 9.0, 37, 'ex', 'ex'),
+  //   createData(7, 262, 16.0, 24, 'ex', 'ex'),
+  // ];
+
+  const [histData, setHistData] = React.useState<HistoricoData[]>([]);
+  const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
+
+  const recuperarHistoricoOleo = async () => {
+    if (usuarioLogado) {
+      const usuarioJson = JSON.parse(usuarioLogado);
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BaseURL}/GETParceiroEmpresaCompraOleo/${usuarioJson.UsuarioID}`
+        );
+
+        const parceiroEmpresaExtratoArray = JSON.parse(
+          response.data.ParceiroEmpresaExtrato
+        );
+
+        if (Array.isArray(parceiroEmpresaExtratoArray)) {
+          setHistData(parceiroEmpresaExtratoArray);
+
+        } else {
+          console.log("parceiroEmpresaExtratoArray não é um array ou está vazio.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    recuperarHistoricoOleo();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-        
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
 
-      <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
-    <Box
-      sx={{
-        width: isMobile ? "100%" : isTablet ? "100%" : "100%",
-        backgroundColor: "white",
-        // height: isMobile ? "380px" : isTablet ? "380px" : "330px",
-        borderRadius: 5,
-        borderColor: "gray",
-        border: 1,
-        // ml: 55,
-        mt: 8,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center', // Centraliza horizontalmente
-        // width: "100%",
-            
-      }}
-    >
-        <TableContainer>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
-        <TableHead>
-          <TableRow>
-          <TableCell align="center">Data</TableCell>
-          <TableCell align="center">Tipo</TableCell>
-          <TableCell align="center">Quantidade</TableCell>
-          <TableCell align="center">$</TableCell>
-          <TableCell align="center">Estabelecimento</TableCell>
-          <TableCell align="center">Cidade</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.calories}</TableCell>
-              <TableCell align="center">{row.fat}</TableCell>
-              <TableCell align="center">{row.carbs}</TableCell>
-              <TableCell align="center">{row.est}</TableCell>
-              <TableCell align="center">{row.cdd}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Pagination size='small' sx={{ml:'35%', mt:'15%'}} count={10} variant="outlined" color="primary" />
-    </TableContainer>
-    </Box>
-    </Grid>
-    </Grid>
-    <Grid/>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
+          <Box
+            sx={{
+              width: isMobile ? "100%" : isTablet ? "100%" : "100%",
+              backgroundColor: "white",
+              // height: isMobile ? "380px" : isTablet ? "380px" : "330px",
+              borderRadius: 5,
+              borderColor: "gray",
+              border: 1,
+              // ml: 55,
+              mt: 8,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center', // Centraliza horizontalmente
+              // width: "100%",
+
+            }}
+          >
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Data da Transação</TableCell>
+                    <TableCell align="center">Óleo</TableCell>
+                    <TableCell align="center">Quantidade de Óleo</TableCell>
+                    <TableCell align="center">Nome do Parceiro</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {histData.map((historico, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="center">
+                        {historico.data_transacao}
+                      </TableCell>
+                      <TableCell align="center">
+                        {historico.produto_descricao}
+                      </TableCell>
+                      <TableCell align="center">
+                        {historico.produto_quantidade}
+                      </TableCell>
+                      <TableCell align="center">
+                        {historico.nome_fantasia}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Pagination size='small' sx={{ ml: '35%', mt: '15%' }} count={10} variant="outlined" color="primary" />
+            </TableContainer>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid />
     </ThemeProvider>
   );
 }

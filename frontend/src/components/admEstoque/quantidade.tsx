@@ -40,8 +40,46 @@ export default function AdmEstoqueQuantidade() {
 
   const [quantidadeUsado, setQuantidadeUsado] = React.useState(0)
   const [quantidadeLimpo, setQuantidadeLimpo] = React.useState(0)
+
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado")
 
+  const recuperaEmpresaCredito = async () => {
+    if (usuarioLogado) {
+      const usuarioJson = JSON.parse(usuarioLogado);
+  
+      try {
+        const response = await Axios.get(
+          `${process.env.REACT_APP_BaseURL}/GETListaEmpresaEstoque/${usuarioJson.UsuarioID}`
+        );
+        const EmpresaEstoqueArray = JSON.parse(response.data.EmpresaEstoque);
+            
+        
+        if (Array.isArray(EmpresaEstoqueArray)) {
+          EmpresaEstoqueArray.forEach((EmpresaEstoque) => {
+            const tipoOleo = EmpresaEstoque.EmpresaEstoqueTipo;
+            const EmpresaestoqueProdutoQuantidade = EmpresaEstoque.EmpresaEstoqueProdutoQuantidade;
+          
+            if (tipoOleo === 'limpo') {
+              setQuantidadeLimpo(EmpresaestoqueProdutoQuantidade);
+            }
+          
+            if (tipoOleo === 'usado') {
+              setQuantidadeUsado(EmpresaestoqueProdutoQuantidade);
+            }
+          });
+        } else {
+          console.log('Empresa não é um array ou está vazio.');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  
+
+  React.useEffect(() => {
+    recuperaEmpresaCredito()
+  }, []);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isDesktop = useMediaQuery("(max-width: 10025px)"); // Tela maior que 1024px é considerada como PC

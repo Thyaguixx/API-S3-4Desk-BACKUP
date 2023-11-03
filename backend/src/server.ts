@@ -32,6 +32,10 @@ import { GETEmpresaParceiroEmpresaEnviaMoedaPorParceiro } from "../Procedures/GE
 import { PUTUsuarioSenha } from "../Procedures/PUTs/PUTUsuarioSenha";
 import { PUTParceiro } from "../Procedures/PUTs/PUTParceiro";
 import { GETParceiroEstoquePorTipo } from "../Procedures/GETs/GETParceiroEstoquePorTipoEstoque";
+import { POSTEmpresaCompraOleoParceiro } from "../Procedures/Functions/POSTEmpresaCompraOleoParceiro";
+import { GETListaEmpresaEstoque } from "../Procedures/GETs/GETListaEmpresaEstoque";
+import { GETParceiroEmpresaEmpresaCompraOleo } from "../Procedures/GETs/GETParceiroEmpresaEmpresaCompraOleo";
+import { GETHistoricosRecebimentosMoedas } from "../Procedures/GETs/GETHistoricosRecebimentosMoedas";
 
 dotenv.config()
 
@@ -487,7 +491,6 @@ app.put("/editarUsuarioParceiro", async (req, res) => {
     if (resultado?.isSucesso) {
         res.send({ msg: "Suas informações foram atualizada com sucesso.", Sucesso: resultado.isSucesso})
     } else {
-        console.log({msg: "Erro ao atualizar parceiro.", Sucesso: resultado?.isSucesso})
         res.send({msg: "Erro ao atualizar parceiro.", Sucesso: false})
     }
 
@@ -512,15 +515,61 @@ app.post("/POSTEmpresaCompraOleoParceiro", async (req, res) => {
     const { transacaoEmpresaParceiro } = req.body
     const { UsuarioID } = req.body
 
-    const returnTRN = await realizarTransacaoEstabelecimentoParceiro(client, UsuarioID, ParceiroID, ParceiroEstoqueID, transacaoEmpresaParceiro)
+    const returnTRN = await POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroID, ParceiroEstoqueID, transacaoEmpresaParceiro)
 
+    
+    
     if (returnTRN?.isSucesso) {
+        console.log('returnTRN:  '+ returnTRN.isSucesso);
         res.send({ Sucesso: returnTRN.isSucesso, msg: returnTRN.mensagem })
     }
 })
 
 
 
+app.get("/GETListaEmpresaEstoque/:usuarioID", async (req, res) => {
+    const { usuarioID } = req.params
+
+    const retornoEmpresaEstoque = await GETListaEmpresaEstoque(client, usuarioID)
+    if (retornoEmpresaEstoque) {
+        res.send({ EmpresaEstoque: retornoEmpresaEstoque?.retornoEmpresaEstoqueJSON, msg: retornoEmpresaEstoque.isSucesso ? "Sucesso" : "Deu ruim."})
+    } else {
+        console.log('Nenhum estoque encontrado.');
+    }
+})
+
+app.get("/GETParceiroEmpresaCompraOleo/:usuarioID", async (req, res)=>{
+
+    const { usuarioID } = req.params
+    
+    GETParceiroEmpresaEmpresaCompraOleo(client,usuarioID)
+    
+      .then(parcEmpresaExtrato =>{
+        
+        var ParceiroEmpresaExtrato = JSON.stringify(parcEmpresaExtrato)
+        // console.log('Historico parceiro e empresa   '+ ParceiroEmpresaExtrato)
+
+        res.send({msg:'GET com sucesso', ParceiroEmpresaExtrato:ParceiroEmpresaExtrato})
+      } )
+      .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
+})
+
+
+app.get("/GETHistoricosRecebimentosMoedas/:usuarioID", async (req, res)=>{
+
+    const { usuarioID } = req.params
+    
+    GETHistoricosRecebimentosMoedas(client,usuarioID)
+      .then(parcEmpresaExtrato =>{
+        
+        
+        var ParceiroEmpresaExtrato = JSON.stringify(parcEmpresaExtrato)
+        // console.log('Historico parceiro e estab   '+ ParceiroEmpresaExtrato)
+
+        res.send({msg:'GET com sucesso', ParceiroEmpresaExtrato:ParceiroEmpresaExtrato})
+      } )
+      .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
+})
 
 // app.put("/editarUsuarioEstabelecimento", async (req, res) => {
 //     const { estabelecimentoInfo } = req.body

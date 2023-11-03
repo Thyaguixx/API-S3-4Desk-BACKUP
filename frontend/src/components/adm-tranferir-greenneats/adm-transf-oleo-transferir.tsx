@@ -167,7 +167,7 @@ export default function AdmTransfOleoTransferir() {
           ParceiroEstoqueProdutoQuantidade: count1,
           ParceiroCreditoQuantidade: count1,
           EstoqueTipo: parcEstoqueObj.ParceiroEstoqueTipo
-        };
+        };//
 
         const resultado = await Axios.post(
           "http://localhost:3001/POSTEmpresaCompraOleoParceiro",

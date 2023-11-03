@@ -12,7 +12,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import axios from "axios";
 
+interface HistoricoData {
+  data_transacao: string;
+  quantidade_creditos: number;
+  nome_fantasia: string;
+}
 
 export default function Historico() {
   const theme = createTheme({
@@ -36,65 +42,95 @@ export default function Historico() {
   ) {
     return { name, calories, fat, carbs };
   }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24),
-    createData('Ice cream sandwich', 237, 9.0, 37),
-    createData('Eclair', 262, 16.0, 24),
-  ];
-  
+
+
+  const [histData, setHistData] = React.useState<HistoricoData[]>([]);
+  const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
+
+  const recuperarHistoricoOleo = async () => {
+    if (usuarioLogado) {
+      const usuarioJson = JSON.parse(usuarioLogado);
+
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BaseURL}/GETHistoricosRecebimentosMoedas/${usuarioJson.UsuarioID}`
+        );
+
+        const parceiroEmpresaExtratoArray = JSON.parse(
+          response.data.ParceiroEmpresaExtrato
+        );
+
+        if (Array.isArray(parceiroEmpresaExtratoArray)) {
+          setHistData(parceiroEmpresaExtratoArray);
+
+        } else {
+          console.log("parceiroEmpresaExtratoArray não é um array ou está vazio.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    recuperarHistoricoOleo();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
-        
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
 
-      <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
-    <Box
-      sx={{
-        width: isMobile ? "100%" : isTablet ? "100%" : "100%",
-        backgroundColor: "white",
-        // height: isMobile ? "380px" : isTablet ? "380px" : "330px",
-        borderRadius: 5,
-        borderColor: "gray",
-        border: 1,
-        // ml: 55,
-        mt: 2,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center', // Centraliza horizontalmente
-        // width: "100%",
-            
-      }}
-    >
-        <TableContainer>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Data</TableCell>
-            <TableCell align="center">Parceiro</TableCell>
-            <TableCell align="center">Total</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align="center">{row.calories}</TableCell>
-              <TableCell align="center">{row.fat}</TableCell>
-              <TableCell align="center">{row.carbs}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Pagination size='small' sx={{ml:'35%', mt:'15%'}} count={10} variant="outlined" color="primary" />
-    </TableContainer>
-    </Box>
-    </Grid>
-    </Grid>
-    <Grid/>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}></Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
+          <Box
+            sx={{
+              width: isMobile ? "100%" : isTablet ? "100%" : "100%",
+              backgroundColor: "white",
+              // height: isMobile ? "380px" : isTablet ? "380px" : "330px",
+              borderRadius: 5,
+              borderColor: "gray",
+              border: 1,
+              // ml: 55,
+              mt: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center', // Centraliza horizontalmente
+              // width: "100%",
+
+            }}
+          >
+            <TableContainer>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Data da Transação</TableCell>
+                    <TableCell align="center">Usuários</TableCell>
+                    <TableCell align="center">Moedas recebidas</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {histData.map((historico, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="center">
+                        {historico.data_transacao}
+                      </TableCell>
+                      <TableCell align="center">
+                        {historico.nome_fantasia}
+                      </TableCell>
+                      <TableCell align="center">
+                        {historico.quantidade_creditos}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Pagination size='small' sx={{ ml: '35%', mt: '15%' }} count={10} variant="outlined" color="primary" />
+            </TableContainer>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid />
     </ThemeProvider>
   );
 }
