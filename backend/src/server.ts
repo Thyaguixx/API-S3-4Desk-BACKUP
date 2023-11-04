@@ -516,11 +516,8 @@ app.post("/POSTEmpresaCompraOleoParceiro", async (req, res) => {
     const { UsuarioID } = req.body
 
     const returnTRN = await POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroID, ParceiroEstoqueID, transacaoEmpresaParceiro)
-
-    
     
     if (returnTRN?.isSucesso) {
-        console.log('returnTRN:  '+ returnTRN.isSucesso);
         res.send({ Sucesso: returnTRN.isSucesso, msg: returnTRN.mensagem })
     }
 })

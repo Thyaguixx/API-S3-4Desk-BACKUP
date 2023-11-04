@@ -4,10 +4,10 @@ import { SETParceiroEstoque } from '../SETs/SETParceiroEstoque';
 const { Client } = require('pg');
 
 export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroID, ParceiroEstoqueID, transacaoEmpresaParceiro) {
-  try {
-    let isSucesso = false;
-    var LOCALERRO = 'GETEmpresa';
+  let isSucesso = false;
+  let LOCALERRO = 'GETEmpresa';
 
+  try {
     const EmpresaQuery = {
       text: 'SELECT EmpresaID FROM Empresa WHERE UsuarioID = $1',
       values: [UsuarioID],
@@ -27,6 +27,7 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
       if (ParceiroEstoqueQuantidade >= transacaoEmpresaParceiro.ParceiroEstoqueProdutoQuantidade) {
         // Iniciar uma transação no banco de dados
         await client.query('BEGIN');
+
         LOCALERRO = 'INSERT HISTORICO';
 
         const insertQuery = `
@@ -41,7 +42,7 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
             HistoricoParceiroEmpresaCreditoQuantidade,
             HistoricoParceiroEmpresaTipoTransacao
           )
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         `;
         const insertValues = [
           EmpresaID,
@@ -52,11 +53,11 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
           transacaoEmpresaParceiro.ParceiroEstoqueProdutoDescricao,
           transacaoEmpresaParceiro.ParceiroEstoqueProdutoQuantidade,
           transacaoEmpresaParceiro.ParceiroCreditoQuantidade,
-          'EmpresaCompraOleo'
+          'EmpresaCompraOleo',
         ];
         await client.query(insertQuery, insertValues);
 
-        LOCALERRO = 'UPDATEEmpresaEstoque';
+        LOCALERRO = 'GETEmpresaEstoque';
 
         const GETEmpresaEstoque = {
           text: `SELECT empresaestoqueid FROM EmpresaEstoque WHERE EmpresaEstoqueEstoqueTipo = $1 and EmpresaID = $2`,
@@ -69,6 +70,7 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
 
           if (EmpresaEstoqueID) {
             LOCALERRO = 'UPDATEEmpresaEstoque';
+
             const updateEstoqueEmpresaQuery = {
               text: `
                 UPDATE EmpresaEstoque
@@ -83,6 +85,7 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
             await client.query(updateEstoqueEmpresaQuery);
           } else {
             LOCALERRO = 'InsertEmpresaEstoque';
+
             const insertEmpresaEstoqueQuery = `
               INSERT INTO EmpresaEstoque (
                 EmpresaID,
@@ -101,10 +104,27 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
             await client.query(insertEmpresaEstoqueQuery, insertEmpresaEstoqueValues);
           }
         } else {
-          console.log('Nenhum resultado encontrado para a consulta.');
+          LOCALERRO = 'InsertEmpresaEstoque outro else';
+
+          const insertEmpresaEstoqueQuery = `
+            INSERT INTO EmpresaEstoque (
+              EmpresaID,
+              EmpresaEstoqueEstoqueProdutoDescricao,
+              EmpresaEstoqueEstoqueTipo,
+              EmpresaEstoqueEstoqueProdutoQuantidade
+            )
+            VALUES ($1, $2, $3, $4)
+          `;
+          const insertEmpresaEstoqueValues = [
+            EmpresaID,
+            transacaoEmpresaParceiro.ParceiroEstoqueProdutoDescricao,
+            transacaoEmpresaParceiro.EstoqueTipo,
+            transacaoEmpresaParceiro.ParceiroEstoqueProdutoQuantidade,
+          ];
+          await client.query(insertEmpresaEstoqueQuery, insertEmpresaEstoqueValues);
         }
 
-        LOCALERRO = 'UPDATE PARCEIRO ESTOQUE';
+        LOCALERRO = 'Update PARCEIRO ESTOQUE';
 
         const updateEstoqueQuery = {
           text: `
@@ -119,16 +139,29 @@ export async function POSTEmpresaCompraOleoParceiro(client, UsuarioID, ParceiroI
         };
         await client.query(updateEstoqueQuery);
 
+        LOCALERRO = 'GET PARCEIRO CREDITO';
+        const GETParceiroCreditoQuery2 = {
+          text: `
+            SELECT ParceiroCreditoQuantidade from Parceiro where ParceiroID = $1
+          `,
+          values: [
+            ParceiroID,
+          ],
+        };
+        const resultGETParceiroQuantidadeCredito = await client.query(GETParceiroCreditoQuery2);
+        const parceiroquantidadecredito = resultGETParceiroQuantidadeCredito.rows[0].parceirocreditoquantidade;
+
         LOCALERRO = 'UPDATE PARCEIRO CREDITO';
+        const somaQuantidade = parceiroquantidadecredito + transacaoEmpresaParceiro.ParceiroCreditoQuantidade;
 
         const updateParceiroQuery = {
           text: `
             UPDATE Parceiro
-            SET ParceiroCreditoQuantidade = ParceiroCreditoQuantidade + $1
+            SET ParceiroCreditoQuantidade = $1
             WHERE ParceiroID = $2
           `,
           values: [
-            transacaoEmpresaParceiro.ParceiroCreditoQuantidade,
+            somaQuantidade,
             ParceiroID,
           ],
         };
