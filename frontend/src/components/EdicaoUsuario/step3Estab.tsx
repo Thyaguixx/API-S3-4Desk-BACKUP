@@ -125,7 +125,7 @@ export default function Step3Estab() {
         EstabelecimentoPrincipaisParceiros: princParceiros,
       }
 
-      const result = await Axios.put(`${process.env.REACT_APP_BaseURL}/editarUsuarioParceiro`, {
+      const result = await Axios.put(`${process.env.REACT_APP_BaseURL}/editarUsuarioEstabelecimento`, {
         estabelecimentoInfo: estabelecimento,
         usuarioID: usuarioObj.UsuarioID
       })

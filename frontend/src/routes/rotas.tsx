@@ -16,6 +16,7 @@ import AdmTransferirGreenneats from "../pages/adm-tranferir-greenneats";
 import ParCreditoGreenneat from "../pages/par-credito-greenneat";
 import AdmEstoqueOleo from "../pages/admEstoqueOleo";
 import AdmHistoricoRecUsu from "../pages/adm-historicoRecUsu";
+import AdmUsuarioCadastrado from "../pages/adm-usuario-cadastrado";
 
 export const Rotas = () => {
   return (
@@ -80,6 +81,13 @@ export const Rotas = () => {
           element={
             <PrivateRouteADM>
               <AdmHistoricoRecUsu />
+            </PrivateRouteADM>
+          } />
+
+        <Route path="/adm-usuarios-cadastrados"
+          element={
+            <PrivateRouteADM>
+              <AdmUsuarioCadastrado />
             </PrivateRouteADM>
           } />
 

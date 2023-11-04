@@ -201,15 +201,15 @@ function AdmLeftMenu() {
           <ListItemIcon>
             <img src={extrato} alt="png" width="25px" />
           </ListItemIcon>
-          <ListItemText primary="Usuários Cadastrados" />
-          {open5 ? <ExpandLess /> : <ExpandMore />}
+          <ListItemText primary="Usuários cadastrados" onClick={() => navigate('/adm-usuarios-cadastrados')}/>
+          {/* {open5 ? <ExpandLess /> : <ExpandMore />} */}
         </ListItemButton>
 
-        <Collapse in={open5} timeout="auto" unmountOnExit>
+        {/* <Collapse in={open5} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton sx={{ pl: 5 }}>
               <img src={extrato} alt="png" width="20px" />
-              <ListItemText sx={{ pl: 3 }} primary="Parceiro" onClick={() => navigate('')}/>
+              <ListItemText sx={{ pl: 3 }} primary="Parceiro" onClick={() => navigate('/adm-usuarios-cadastrados')}/>
             </ListItemButton>
 
             <ListItemButton sx={{ pl: 5 }}>
@@ -217,7 +217,7 @@ function AdmLeftMenu() {
               <ListItemText sx={{ pl: 3 }} primary="Estabelecimento" onClick={() => navigate('')}/>
             </ListItemButton>
           </List>
-        </Collapse>
+        </Collapse> */}
 
 
         <ListItemButton onClick={handleClick6}>

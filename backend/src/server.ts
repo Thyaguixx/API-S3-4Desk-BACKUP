@@ -36,6 +36,10 @@ import { POSTEmpresaCompraOleoParceiro } from "../Procedures/Functions/POSTEmpre
 import { GETListaEmpresaEstoque } from "../Procedures/GETs/GETListaEmpresaEstoque";
 import { GETParceiroEmpresaEmpresaCompraOleo } from "../Procedures/GETs/GETParceiroEmpresaEmpresaCompraOleo";
 import { GETHistoricosRecebimentosMoedas } from "../Procedures/GETs/GETHistoricosRecebimentosMoedas";
+import { PUTEstabelecimento } from "../Procedures/PUTs/PUTEstabelecimento";
+import { GETUsuarios } from "../Procedures/GETs/GETUsuarios";
+import { DELUsuario } from "../Procedures/Deletes/DELUsuario";
+import { PUTUsuarioStatusRegistro } from "../Procedures/PUTs/PUTUsuarioStatusRegistro";
 
 dotenv.config()
 
@@ -43,7 +47,7 @@ const client = new Pool({
     user: "postgres",
     host: "localhost",
     database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "123",      //trocar para a senha do seu banco local
+    password: "thygas020",      //trocar para a senha do seu banco local
     port: 5432
 })
 
@@ -496,6 +500,21 @@ app.put("/editarUsuarioParceiro", async (req, res) => {
 
 })
 
+app.put("/editarUsuarioEstabelecimento", async (req, res) => {
+    const { estabelecimentoInfo } = req.body
+    const { usuarioID } = req.body
+
+    const resultado = await PUTEstabelecimento(client, usuarioID, estabelecimentoInfo)
+
+    if (resultado?.isSucesso) {
+        res.send({ msg: "Suas informações foram atualizada com sucesso.", Sucesso: resultado.isSucesso})
+    } else {
+        console.log({msg: "Erro ao atualizar estabelecimento.", Sucesso: false})
+        res.send({msg: "Erro ao atualizar estabelecimento.", Sucesso: false})
+    }
+
+})
+
 app.get("/GETParceiroEstoquePorTipo/:parceironome/:estoqueTipo", async (req, res) => {
     const { parceironome } = req.params
     const { estoqueTipo } = req.params
@@ -568,21 +587,27 @@ app.get("/GETHistoricosRecebimentosMoedas/:usuarioID", async (req, res)=>{
       .catch(error => console.error('Erro ao obter o extrato do parc empresa:', error));
 })
 
-// app.put("/editarUsuarioEstabelecimento", async (req, res) => {
-//     const { estabelecimentoInfo } = req.body
-//     const { usuarioID } = req.body
+app.get("/GETUsuarios", async (req, res) => {
+    const response = await GETUsuarios(client)
 
-//     // const resultado = await PUTParceiro(client, usuarioID, parceiroInfo)
+    if (response?.isSucesso) {
+        res.send({msg:'GET com sucesso', Sucesso: response.isSucesso, Usuarios:response.retornoUsuarios})
+    } else {
+        res.send({msg: "Erro ao recuperar usuários", Sucesso: false})
+    }
+})
 
-//     // if (resultado?.isSucesso) {
-//     //     res.send({ msg: "Suas informações foram atualizada com sucesso.", Sucesso: resultado.isSucesso})
-//     // } else {
-//     //     console.log({msg: "Erro ao atualizar parceiro.", Sucesso: false})
-//     //     res.send({msg: "Erro ao atualizar parceiro.", Sucesso: false})
-//     // }
+app.put("/PUTUsuarioStatusRegistro", async (req, res) => {
+    const { usuarioID } = req.body
 
-// })
+    const resultado = await PUTUsuarioStatusRegistro(client, usuarioID)
 
+    if (resultado?.isSucesso) {
+        res.send({msg: "Usuário excluído com sucesso.", Sucesso: resultado.isSucesso})
+    } else {
+        res.send({msg: "Erro ao tentar excluir o usuário.", Sucesso: false})
+    }
+})
 app.listen(3001, () => {
     console.log("Servidor rodando!")
 })

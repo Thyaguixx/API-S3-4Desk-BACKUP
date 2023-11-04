@@ -5,8 +5,22 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Pagination, ThemeProvider, createTheme, useMediaQuery } from "@mui/material";
+import Axios from "axios"
+import Swal from "sweetalert2"
+import { MyToast } from "../Alerts/swal-mixin";
+
+interface Usuarios {
+  UsuarioID: string,
+  UsuarioNome: string,
+  UsuarioEmail: string,
+  UsuarioTipo: string,
+  UsuarioDataCadastro: string,
+  UsuarioStatus: boolean
+}
 
 export default function AdmUsuarioHistorico() {
+  const [listaUsuarios, setListaUsuarios] = React.useState<Usuarios[]>([])
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -22,19 +36,49 @@ export default function AdmUsuarioHistorico() {
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isDesktop = useMediaQuery("(max-width: 10025px)"); // Tela maior que 1024px é considerada como PC
 
-  function createData(name: string, fat: number, carbs: number) {
-    return { name, fat, carbs };
+  const recuperarUsuarios = async () => {
+    const result = await Axios.get(`${process.env.REACT_APP_BaseURL}/GETUsuarios`)
+
+    if (result.data.Sucesso) {
+      setListaUsuarios(result.data.Usuarios)
+    }
   }
 
-  const rows = [
-    createData('Raynara', 159, 11),
-    createData('Diane', 237, 9.0),
-    createData('Rita', 262, 16.0),
-  ];
+  React.useEffect(() => {
+    recuperarUsuarios()
+  }, [])
 
-  // function handleEditClick({ event }: { event: MouseEvent<HTMLButtonElement, MouseEvent>; }): void {
-  //     throw new Error("Function not implemented.");
-  // }
+  const deletarUsuario = async (usuarioID: any) => {
+    Swal.fire({
+      icon: "warning",
+      title: "Atenção",
+      html: "Deseja realmente excluir este usuário?",
+      showCancelButton: true,
+      confirmButtonText: "Sim",
+      confirmButtonColor: "#136935",
+      cancelButtonText: "Não",
+    }).then(async (result) => {
+      if (!result.isConfirmed) {
+        return
+      } else {
+        const response = await Axios.put(`${process.env.REACT_APP_BaseURL}/PUTUsuarioStatusRegistro`, {
+          usuarioID: usuarioID
+        })
+
+        if (response.data.Sucesso) {
+          MyToast.fire({
+            icon: 'success',
+            title: response.data.msg
+          }).then(() => window.location.reload())
+        } else {
+          MyToast.fire({
+            icon: 'error',
+            title: response.data.msg
+          })
+        }
+      }
+    })
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -60,25 +104,27 @@ export default function AdmUsuarioHistorico() {
                   <TableRow>
                     <TableCell align="center">Nome</TableCell>
                     <TableCell align="center">E-mail</TableCell>
-                    <TableCell align="center">Data</TableCell>
+                    <TableCell align="center">Tipo</TableCell>
+                    <TableCell align="center">Data de cadastro</TableCell>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
+                  {listaUsuarios.map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row.UsuarioID}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell align="center">{row.name}</TableCell>
-                      <TableCell align="center">{row.fat}</TableCell>
-                      <TableCell align="center">{row.carbs}</TableCell>
+                      <TableCell align="center">{row.UsuarioNome}</TableCell>
+                      <TableCell align="center">{row.UsuarioEmail}</TableCell>
+                      <TableCell align="center">{row.UsuarioTipo}</TableCell>
+                      <TableCell align="center">{row.UsuarioDataCadastro}</TableCell>
                       {/* Célula de ações com ícones */}
                       <TableCell align="center">
                         <IconButton size="small" >
                           <EditIcon />
                         </IconButton>
-                        <IconButton size="small" >
+                        <IconButton size="small" onClick={() => deletarUsuario(row.UsuarioID)}>
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>

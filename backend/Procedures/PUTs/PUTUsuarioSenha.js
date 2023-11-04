@@ -8,7 +8,6 @@ export async function PUTUsuarioSenha(client, UsuarioID, novaSenha) {
         const values = [senhaCripto, UsuarioID]
 
         const result = await client.query(SQL, values)
-        console.log(result)
 
         return { isSucesso: result.rowCount > 0}
 

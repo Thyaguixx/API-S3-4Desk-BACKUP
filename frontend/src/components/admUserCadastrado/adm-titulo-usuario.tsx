@@ -46,7 +46,7 @@ export default function AdmUsuarioTitulo() {
 
             <Grid item xs={8}>
               <Typography sx={{ fontSize: '25px', fontFamily: 'actor' }}>
-                 Usuários Cadastrados
+                 Usuários cadastrados
               </Typography>
             </Grid>
 

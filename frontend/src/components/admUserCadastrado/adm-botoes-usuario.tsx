@@ -42,63 +42,65 @@ export default function AdmUserBotoes() {
           height: isMobile ? "110px" : isTablet ? "100px" : "70px",
         }}
       >
-          <Grid container>
+        <Grid container>
           <Grid item xs={12} sm={12} md={3} lg={4} xl={4}></Grid>
-            <Grid
-              item
-              lg={3}
-              md={5}
-              sm={12}
-              xs={12}
-              sx={{ 
-                fontSize: "18px",
-                fontFamily: "actor", 
-                fontWeight: "100",
-                mt: 2}}
-            >
-              <Button
-                variant={
-                  selectedButton === "Parceiro"
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() =>
-                  handleButtonClick("Parceiro")
-                }
-                sx={{ width: "240px" }}
-              >
-                Parceiro
-              </Button>
-            </Grid>
-
-            <Grid
-              item
-              lg={3}
-              md={5}
-              sm={12}
-              xs={12}
-              sx={{
-                fontSize: "18px",
-                fontFamily: "actor",
-                fontWeight: "100",
-                mt: 2
-              }}
-            >
-              <Button
-                variant={
+          <Grid
+            item
+            lg={3}
+            md={5}
+            sm={12}
+            xs={12}
+            sx={{
+              fontSize: "18px",
+              fontFamily: "actor",
+              fontWeight: "100",
+              mt: 2
+            }}
+          >
+            <Button
+              variant={
                 selectedButton === "Estabelecimento"
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() =>
-                  handleButtonClick("Estabelecimento")
-                }
-                sx={{ width: "240px" }}
-              >
-                Estabelecimento
-              </Button>
-            </Grid>
+                  ? "outlined"
+                  : "contained"
+                // "contained"
+              }
+              onClick={() => 
+                handleButtonClick("Parceiro")
+              }
+              sx={{ width: "240px" }}
+            >
+              Parceiro
+            </Button>
           </Grid>
+
+          <Grid
+            item
+            lg={3}
+            md={5}
+            sm={12}
+            xs={12}
+            sx={{
+              fontSize: "18px",
+              fontFamily: "actor",
+              fontWeight: "100",
+              mt: 2
+            }}
+          >
+            <Button
+              variant={
+                selectedButton === "Estabelecimento"
+                  ? "contained"
+                  : "outlined"
+              }
+              onClick={() => 
+                handleButtonClick("Estabelecimento")
+              }
+              sx={{ width: "240px" }}
+            >
+              Estabelecimento
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </ThemeProvider>
   );

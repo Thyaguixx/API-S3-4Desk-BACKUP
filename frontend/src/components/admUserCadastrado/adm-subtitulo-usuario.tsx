@@ -40,9 +40,9 @@ export default function AdmUsuarioSubtitulo() {
           <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={3} lg={1} xl={12}></Grid>
             <Grid item xs={6}>
-              <Typography sx={{ fontSize: '15px', fontFamily: 'actor' }}>
+              {/* <Typography sx={{ fontSize: '15px', fontFamily: 'actor' }}>
                 Selecione a opção desejada:
-              </Typography>
+              </Typography> */}
             </Grid>
 
           </Grid>
