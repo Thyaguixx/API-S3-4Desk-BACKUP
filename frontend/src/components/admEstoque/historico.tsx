@@ -56,7 +56,8 @@ export default function AdmHistorico() {
 
   const [histData, setHistData] = React.useState<HistoricoData[]>([]);
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
-
+  const [page, setPage] = React.useState(0);
+  const rowsPerPage = 7; // Define o número de linhas por página
   const recuperarHistoricoOleo = async () => {
     if (usuarioLogado) {
       const usuarioJson = JSON.parse(usuarioLogado);
@@ -97,15 +98,15 @@ export default function AdmHistorico() {
             sx={{
               width: isMobile ? "100%" : isTablet ? "100%" : "100%",
               backgroundColor: "white",
-              // height: isMobile ? "380px" : isTablet ? "380px" : "330px",
+              height: isMobile ? "380px" : isTablet ? "380px" : "330px",
               borderRadius: 5,
               borderColor: "gray",
               border: 1,
               // ml: 55,
               mt: 8,
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center', // Centraliza horizontalmente
+              //alignItems: 'center',
+              //justifyContent: 'center', // Centraliza horizontalmente
               // width: "100%",
 
             }}
@@ -121,7 +122,7 @@ export default function AdmHistorico() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {histData.map((historico, index) => (
+                  {histData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((historico, index) => (
                     <TableRow key={index}>
                       <TableCell align="center">
                         {historico.data_transacao}
@@ -139,9 +140,22 @@ export default function AdmHistorico() {
                   ))}
                 </TableBody>
               </Table>
-              <Pagination size='small' sx={{ ml: '35%', mt: '15%' }} count={10} variant="outlined" color="primary" />
+              
             </TableContainer>
           </Box>
+          <Pagination
+            size="small"
+            sx={{ ml: "40%", mt: "-3%", zIndex:500 }}
+            count={Math.ceil(histData.length / rowsPerPage)}
+            page={page + 1} // Incrementado em 1 para mostrar página 1 em vez de 0
+            onChange={(event, newPage) => {
+              setPage(newPage - 1); // Decrementado em 1 para manter a consistência
+            }}
+            variant="outlined"
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
         </Grid>
       </Grid>
       <Grid />

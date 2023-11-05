@@ -20,15 +20,14 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 interface HistoricoData {
   Data_Transacao: string;
-  Total_Litros_Oleo: string;
-  Parceiro_Que_Transferiu: string;
-  Estabelecimento_Que_Recebeu: string;
+  Empresa_Que_Recebeu: string;
+  Estabelecimento_Que_Transferiu: string;
   Total_Moedas_Transferidas: number;
 }
 
 type SortKey = keyof HistoricoData;
 
-export default function Tabela() {
+export default function TabelaEstabelecimento() {
   const [histData, setHistData] = React.useState<HistoricoData[]>([]);
   const [searchInput, setSearchInput] = React.useState("");
   const [sortConfig, setSortConfig] = React.useState<{
@@ -59,14 +58,14 @@ export default function Tabela() {
   const recuperarHistoricoOleo = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_BaseURL}/GETListaParceirosTransacoes`
+        `${process.env.REACT_APP_BaseURL}/GETListaEstabelecimentosTransacoes`
       );
-      const parceirosTransacoes = response.data.ParceirosTransacoes;
+      const estabelecimentoTransacoes = response.data.EstabelecimentoTransacoes;
 
-      if (Array.isArray(parceirosTransacoes)) {
-        setHistData(parceirosTransacoes);
+      if (Array.isArray(estabelecimentoTransacoes)) {
+        setHistData(estabelecimentoTransacoes);
       } else {
-        console.log("parceirosTransacoes não é um array ou está vazio.");
+        console.log("estabelecimentoTransacoes não é um array ou está vazio.");
       }
     } catch (error) {
       console.log(error);
@@ -87,10 +86,10 @@ export default function Tabela() {
       historico.Data_Transacao.toLowerCase().includes(
         searchInput.toLowerCase()
       ) ||
-      historico.Parceiro_Que_Transferiu.toLowerCase().includes(
+      historico.Estabelecimento_Que_Transferiu.toLowerCase().includes(
         searchInput.toLowerCase()
       ) ||
-      historico.Estabelecimento_Que_Recebeu.toLowerCase().includes(
+      historico.Empresa_Que_Recebeu.toLowerCase().includes(
         searchInput.toLowerCase()
       )
   );
@@ -199,10 +198,10 @@ export default function Tabela() {
                     </TableCell>
                     <TableCell
                       align="center"
-                      onClick={() => handleSort("Parceiro_Que_Transferiu")}
+                      onClick={() => handleSort("Estabelecimento_Que_Transferiu")}
                     >
-                      Parceiro
-                      {sortConfig.key === "Parceiro_Que_Transferiu" &&
+                      Estabelecimento
+                      {sortConfig.key === "Estabelecimento_Que_Transferiu" &&
                         (sortConfig.direction === "asc" ? (
                           <KeyboardArrowDownIcon style={{ verticalAlign: "bottom" }} />
                         ) : (
@@ -211,28 +210,17 @@ export default function Tabela() {
                     </TableCell>
                     <TableCell
                       align="center"
-                      onClick={() => handleSort("Estabelecimento_Que_Recebeu")}
+                      onClick={() => handleSort("Empresa_Que_Recebeu")}
                     >
                       Destinatário
-                      {sortConfig.key === "Estabelecimento_Que_Recebeu" &&
+                      {sortConfig.key === "Empresa_Que_Recebeu" &&
                         (sortConfig.direction === "asc" ? (
                           <KeyboardArrowDownIcon style={{ verticalAlign: "bottom" }} />
                         ) : (
                           <KeyboardArrowUpIcon style={{ verticalAlign: "bottom" }}/>
                         ))}
                     </TableCell>
-                    <TableCell
-                      align="center"
-                      onClick={() => handleSort("Total_Litros_Oleo")}
-                    >
-                      Quantidade de óleo (L)
-                      {sortConfig.key === "Total_Litros_Oleo" &&
-                        (sortConfig.direction === "asc" ? (
-                          <KeyboardArrowDownIcon style={{ verticalAlign: "bottom" }} />
-                        ) : (
-                          <KeyboardArrowUpIcon style={{ verticalAlign: "bottom" }}/>
-                        ))}
-                    </TableCell>
+                    
                     <TableCell
                       align="center"
                       onClick={() => handleSort("Total_Moedas_Transferidas")}
@@ -254,13 +242,10 @@ export default function Tabela() {
                         {historico.Data_Transacao}
                       </TableCell>
                       <TableCell align="center">
-                        {historico.Parceiro_Que_Transferiu}
+                        {historico.Estabelecimento_Que_Transferiu}
                       </TableCell>
                       <TableCell align="center">
-                        {historico.Estabelecimento_Que_Recebeu}
-                      </TableCell>
-                      <TableCell align="center">
-                        {historico.Total_Litros_Oleo}
+                        {historico.Empresa_Que_Recebeu}
                       </TableCell>
                       <TableCell align="center">
                         {historico.Total_Moedas_Transferidas}

@@ -40,6 +40,8 @@ import { PUTEstabelecimento } from "../Procedures/PUTs/PUTEstabelecimento";
 import { GETUsuarios } from "../Procedures/GETs/GETUsuarios";
 import { DELUsuario } from "../Procedures/Deletes/DELUsuario";
 import { PUTUsuarioStatusRegistro } from "../Procedures/PUTs/PUTUsuarioStatusRegistro";
+import { GETListaParceiroTransacoes } from "../Procedures/GETs/GETParceirosTransacoes";
+import { GETListaEstabelecimentosTransacoes } from "../Procedures/GETs/GETPEstabelecimentosTransacoes";
 
 dotenv.config()
 
@@ -47,7 +49,7 @@ const client = new Pool({
     user: "postgres",
     host: "localhost",
     database: "API - 4Desk",    //trocar para o nome do seu banco local
-    password: "thygas020",      //trocar para a senha do seu banco local
+    password: "1234",      //trocar para a senha do seu banco local
     port: 5432
 })
 
@@ -608,6 +610,37 @@ app.put("/PUTUsuarioStatusRegistro", async (req, res) => {
         res.send({msg: "Erro ao tentar excluir o usuário.", Sucesso: false})
     }
 })
+
+app.get("/GETListaParceirosTransacoes", async (req, res) => {
+    try {
+      const retornoParceirosTransacoes = await GETListaParceiroTransacoes(client);
+  
+      if (retornoParceirosTransacoes) {
+        res.json({ ParceirosTransacoes: retornoParceirosTransacoes });
+      } else {
+        res.json({ ParceirosTransacoes: [] });
+      }
+    } catch (error) {
+      console.error('Erro ao obter transações de parceiros:', error);
+      res.status(500).json({ error: 'Erro ao obter transações de parceiros' });
+    }
+  });
+
+  app.get("/GETListaEstabelecimentosTransacoes", async (req, res) => {
+    try {
+      const retornoEstabelecimentosTransacoes = await GETListaEstabelecimentosTransacoes(client);
+      
+      if (retornoEstabelecimentosTransacoes) {
+        res.json({ EstabelecimentoTransacoes: retornoEstabelecimentosTransacoes });
+      } else {
+        res.json({ EstabelecimentoTransacoes: [] });
+      }
+    } catch (error) {
+      console.error('Erro ao obter transações de estabe:', error);
+      res.status(500).json({ error: 'Erro ao obter transações de estabe' });
+    }
+  });
+
 app.listen(3001, () => {
     console.log("Servidor rodando!")
 })

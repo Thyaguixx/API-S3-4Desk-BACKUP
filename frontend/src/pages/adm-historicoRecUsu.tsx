@@ -24,7 +24,6 @@ function AdmHistoricoRecUsu(){
         <AdmLeftMenu/>
         <Titulo />
         <Subtitulo />
-        <BarraPesquisa />
         <Historico />
         <Footer />
       </ThemeProvider>

@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
-import { useMediaQuery } from '@mui/material';
+import { Pagination, useMediaQuery } from '@mui/material';
 
 
 interface HistoricoData {
@@ -34,6 +34,9 @@ export default function ParExtratoTranferir() {
 
   const [histData, setHistData] = React.useState<HistoricoData[]>([]);
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
+  const [page, setPage] = React.useState(0);
+  const rowsPerPage = 7; // Define o número de linhas por página
+ 
 
   const recuperarHistoricoOleo = async () => {
     if (usuarioLogado) {
@@ -100,7 +103,7 @@ export default function ParExtratoTranferir() {
               </TableRow>
             </TableHead>
             <TableBody>
-            {histData.map((historico, index) => (
+            {histData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((historico, index) => (
                 <TableRow key={index}>
                   <TableCell align="center">
                     {historico.data_transacao}
@@ -116,6 +119,19 @@ export default function ParExtratoTranferir() {
             </TableBody>
           </Table>
         </TableContainer>
+        <Pagination
+            size="small"
+            sx={{ ml: "40%", mt: "-2%", zIndex:500 }}
+            count={Math.ceil(histData.length / rowsPerPage)}
+            page={page + 1} // Incrementado em 1 para mostrar página 1 em vez de 0
+            onChange={(event, newPage) => {
+              setPage(newPage - 1); // Decrementado em 1 para manter a consistência
+            }}
+            variant="outlined"
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
       </div>
     </ThemeProvider>
   );

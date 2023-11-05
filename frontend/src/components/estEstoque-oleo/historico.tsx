@@ -41,6 +41,9 @@ export default function EstEstoqueHistorico() {
 
   const [histData, setHistData] = React.useState<HistoricoData[]>([]);
   const usuarioLogado = sessionStorage.getItem("UsuarioLogado");
+  const [page, setPage] = React.useState(0);
+  const rowsPerPage = 7; // Define o número de linhas por página
+ 
 
   const recuperarHistoricoOleo = async () => {
     if (usuarioLogado) {
@@ -96,7 +99,7 @@ export default function EstEstoqueHistorico() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {histData.map((historico, index) => (
+              {histData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((historico, index) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -122,6 +125,19 @@ export default function EstEstoqueHistorico() {
             color="primary"
           /> */}
         </TableContainer>
+        <Pagination
+            size="small"
+            sx={{ ml: "40%", mt: "-4%", zIndex:500 }}
+            count={Math.ceil(histData.length / rowsPerPage)}
+            page={page + 1} // Incrementado em 1 para mostrar página 1 em vez de 0
+            onChange={(event, newPage) => {
+              setPage(newPage - 1); // Decrementado em 1 para manter a consistência
+            }}
+            variant="outlined"
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
       </Box>
     </ThemeProvider>
   );

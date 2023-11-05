@@ -7,7 +7,6 @@ import { Box, Container, Grid, createTheme, useMediaQuery } from "@mui/material"
 import ParcTituloTransfUsu from "../components/transf-realiz-usuario.tsx/parc-titulo-transf-usu";
 import Tabela from "../components/transf-realiz-usuario.tsx/tabela";
 import TransBotao from "../components/transf-realiz-usuario.tsx/trans-button";
-import Pesquisa from "../components/transf-realiz-usuario.tsx/pesquisa";
 
 function TransfRealizUsuario() {
 
@@ -51,15 +50,7 @@ function TransfRealizUsuario() {
             </Grid>          
         </Grid>
         <TransBotao/>  
-        <Pesquisa/>
 
-
-        <Tabela/>
-
-
-
-
-        
       </Box>
     </ThemeProvider>
     </div>

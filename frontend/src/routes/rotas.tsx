@@ -17,6 +17,7 @@ import ParCreditoGreenneat from "../pages/par-credito-greenneat";
 import AdmEstoqueOleo from "../pages/admEstoqueOleo";
 import AdmHistoricoRecUsu from "../pages/adm-historicoRecUsu";
 import AdmUsuarioCadastrado from "../pages/adm-usuario-cadastrado";
+import TransfRealizUsuario from "../pages/transf-realiz-usuario";
 
 export const Rotas = () => {
   return (
@@ -96,6 +97,13 @@ export const Rotas = () => {
             <PrivateRouteParceiro>
               <ParCreditoGreenneat />
             </PrivateRouteParceiro>
+          } />
+
+<Route path="/transf-realiz-usuario"
+          element={
+            <PrivateRouteADM>
+              <TransfRealizUsuario />
+            </PrivateRouteADM>
           } />
 
         <Route path="/edicao-usuario-parceiro" element={<ParEdicaoPerfil />} />
